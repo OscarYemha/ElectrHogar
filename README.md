@@ -3,8 +3,8 @@
 La idea es construir una app de punta a punta , utilizando el back-end y front-end, con las tecnologías vistas en el bootcamp.
 
 ## Metodología First
-ÁGIL: Todos los días por el canal de comunicación asignado, comentar a primer hora del día en que estuviste trabajando, con que estas ahora y con que vas a estar próximamente y si algo te esta bloqueando.
-Trello: El primer paso es tomar el trello de ecommerce como referencia, y armar un trello con todos los puntos de este trabajo. Antes de arrancar a codear validarlo con staff.
+ÁGIL: Todos los días por el canal de comunicación asignado, comentar a primer hora del día en que estuviste trabajando, con que estas ahora y con que vas a estar próximamente y si algo te esta bloqueando.    
+Trello: El primer paso es tomar el trello de ecommerce como referencia, y armar un trello con todos los puntos de este trabajo. Antes de arrancar a codear validarlo con staff.    
 
 ## Inicio
 Para este trabajo no hay repo, vas a tener que codear todo desde 0. Esa es la idea, entender todo lo que vas haciendo, no quiere decir que de memoria te tengas que acordar de todo, pero si que cada línea la escribas y entiendas lo que estás haciendo. 
