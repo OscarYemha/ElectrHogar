@@ -3,6 +3,8 @@
 La idea es construir una app de punta a punta , utilizando el back-end y front-end, con las tecnologías vistas en el bootcamp.
 
 ## Inicio
+Trello: El primer paso es tomar el trello de ecommerce como referencia, y armar un trello con todos los puntos de este trabajo. Antes de arrancar a codear validarlo con staff.
+
 Para este trabajo no hay repo, vas a tener que codear todo desde 0. Esa es la idea, entender todo lo que vas haciendo, no quiere decir que de memoria te tengas que acordar de todo, pero si que cada línea la escribas y entiendas lo que estás haciendo. 
 
 La estructura del proyecto queda a tu criterio, recomendamos separar el front y el back en dos carpetas distintas y ahí comprender cada área.
