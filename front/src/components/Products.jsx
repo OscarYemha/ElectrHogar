@@ -9,26 +9,35 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {Link} from 'react-router-dom';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 const grid = {
   marginTop: "60px",
 };
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    flexGrow: 1,
   },
-});
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+
+}));
 
 export default ({productsArray}) => (
-  <div className="bg-light" style={{ marginLeft: "170px" }}>     
-  
-         <div style={grid} className="container">
+
            
-         <div className="row" >
+         <div>
+           
        {productsArray && productsArray.length>0? productsArray.map((p) => {return (
          
-         
-        
+         <div className={useStyles().root}>
+         <Grid container spacing={3}>
+         <Grid item xs={3}>
+         <Paper className={useStyles.paper}>
           <Card className={useStyles().root} key={p.id}>
       <Link to={`/singleproduct/${p.id}`} style={{textDecoration:'none', color:'black'}}><CardActionArea>
         <CardMedia
@@ -55,12 +64,11 @@ export default ({productsArray}) => (
         </Button>
       </CardActions>
     </Card>
-        
-        
-      
+    </Paper>
+    </Grid>
+    </Grid>
+    </div>
 )}):<div>No hay nada</div>}
-</div>
-</div>
 </div>);
 
 

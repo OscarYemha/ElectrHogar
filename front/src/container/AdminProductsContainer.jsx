@@ -1,12 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import AdminProducts from '../components/AdminProducts';
-import {fetchAdminProducts} from '../actions/admin';
+import {fetchAdminProducts, deleteAdminProduct} from '../actions/admin';
 
 class AdminProductsContainer extends React.Component {
     constructor(props){
         super(props);
-        console.log('props del AdminProductsContainer = ', this.props)
+        console.log('props del AdminProductsContainer = ', this.props);
+
+        this.handleDelete = this.handleDelete.bind(this);
     }
 
     componentDidMount() {
@@ -14,11 +16,18 @@ class AdminProductsContainer extends React.Component {
         this.props.fetchAdminProducts()
     }
 
+    handleDelete(product){
+        this.props.deleteAdminProduct(product).then(()=>{
+            this.props.fetchAdminProducts();
+        })
+    }
+
     render(){
         console.log('Esto es props.allproducts = ', this.props.allproducts)
         return(
             <AdminProducts 
             allproducts = {this.props.allproducts}
+            handleDelete = {this.handleDelete}
             />
         )
     }
@@ -31,4 +40,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {fetchAdminProducts})(AdminProductsContainer);
+export default connect(mapStateToProps, {fetchAdminProducts, deleteAdminProduct})(AdminProductsContainer);

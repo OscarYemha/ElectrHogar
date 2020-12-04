@@ -144,9 +144,10 @@ export default (props) => {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     <MenuItem onClick={handleClose, props.handleLogout}>Cerrá Sesión</MenuItem>
-                    { props.user.isAdmin===true ? (
-                      <Link to='/admin/products'  style={{color:'#000000DE', textDecoration:'none'}}><MenuItem onClick={handleClose}>Modificar tus productos</MenuItem></Link>
-                    ):null}
+                    { props.user.isAdmin===true ? (<div>
+                      <Link to='/admin/products'  style={{color:'#000000DE', textDecoration:'none'}}><MenuItem onClick={handleClose}>Ver la lista de Productos</MenuItem></Link>
+                      <Link to='/admin/newproduct'  style={{color:'#000000DE', textDecoration:'none'}}><MenuItem onClick={handleClose}>Agregar nuevo Producto</MenuItem></Link>
+                      </div>):null}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

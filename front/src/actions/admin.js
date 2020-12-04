@@ -30,7 +30,7 @@ export const fetchAdminCategories = () => (dispatch) =>
     .then((allcategories) => dispatch(receiveAdminCategories(allcategories)));
 
 
-export const addAdminProduct = function(product, category) {
+export const createAdminProduct = function(product, category) {
     return function() {
         return axios.post(`http://localhost:1000/api/admin/newproduct`, {product, category});
     };

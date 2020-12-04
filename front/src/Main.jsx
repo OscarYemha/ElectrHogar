@@ -10,6 +10,7 @@ import ProductsContainer from './container/ProductsContainer';
 import SingleProductContainer from './container/SingleProductContainer';
 import CarouselContainer from './container/CarouselContainer';
 import AdminProductsContainer from './container/AdminProductsContainer';
+import NewProductContainer from './container/NewProductContainer'
 
 class Main extends React.Component {
 
@@ -36,6 +37,7 @@ class Main extends React.Component {
                             <Route path='/login' component={LoginContainer}/>
                             <Route path='/register' component={RegisterContainer}/>
                             <Route path='/admin/products' component={AdminProductsContainer}/>
+                            <Route path='/admin/newproduct' component={NewProductContainer}/>
                         </Switch>
                     
                 </div>
