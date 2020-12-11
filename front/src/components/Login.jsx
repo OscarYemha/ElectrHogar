@@ -18,7 +18,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" to="/" style={{textDecoration:'none', color: 'rgba(0, 0, 0, 0.54)',}}>
-        TrucHogar
+        ElectrHogar
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}

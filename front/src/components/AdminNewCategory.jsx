@@ -5,20 +5,18 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Link} from 'react-router-dom';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Backdrop from '@material-ui/core/Backdrop';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" to="/" style={{textDecoration:'none', color: 'rgba(0, 0, 0, 0.54)',}}>
-        TrucHogar
+      ElectrHogar
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -46,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit}) => {
+export default ({handleSubmit, handleName, handleImg}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
@@ -64,7 +62,7 @@ export default ({handleName, handlePrice, handleImg, handleStock, handleDescript
           <AddCircleIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Agregar nuevo Producto
+          Crear nueva Categoría
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -86,55 +84,13 @@ export default ({handleName, handlePrice, handleImg, handleStock, handleDescript
                 variant="outlined"
                 required
                 fullWidth
-                name="precio"
-                label="Precio"
-                type="precio"
-                id="precio"
-                autoComplete="precio"
-                onChange={handlePrice}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="imgUrl"
-                label="Link de la Imagen"
-                type="imgUrl"
-                id="imgUrl"
-                autoComplete="imgUrl"
+                id="imagen"
+                label="Imagen"
+                name="imagen"
+                autoComplete="imagen"
                 onChange={handleImg}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="stock"
-                label="Stock"
-                type="stock"
-                id="stock"
-                autoComplete="stock"
-                onChange={handleStock}
-              />
-            </Grid>
-            <Grid item xs={12}>
-            <TextField
-                variant="outlined"
-                required
-                fullWidth
-                multiline
-                name="descripcion"
-                label="Descripción"
-                type="descripcion"
-                id="descripcion"
-                autoComplete="descripcion"
-                onChange={handleDescription}
-              />
-              </Grid>
-          </Grid>
           <Button
             type="submit"
             fullWidth
@@ -143,9 +99,9 @@ export default ({handleName, handlePrice, handleImg, handleStock, handleDescript
             className={classes.submit}
             onClick={handleToggle}
           >
-            CREAR PRODUCTO
+            CREAR CATEGORÍA
           </Button>
-          
+          </Grid>
         </form>
       </div>
       <Box mt={5}>

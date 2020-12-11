@@ -8,8 +8,6 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import {Link } from 'react-router-dom';
-import Menu from '../components/Menu';
-import Icon from '@material-ui/core/Icon';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -17,6 +15,8 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import MenuIcon from '@material-ui/icons/Menu';
+import Drawer from './Drawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default (props) => {
-  console.log('props de la navbar = ', props)
+  console.log('props del component navbar = ', props)
   const classes = useStyles();
     const sub = {
         textDecoration: 'none',
@@ -123,15 +123,16 @@ export default (props) => {
             color="inherit"
             aria-label="open drawer"
           >
-            <Menu />
+            <MenuIcon > <Drawer/></MenuIcon> 
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-          <Link to="/" color="inherit" style={sub}>TrucHogar</Link>
+          <Link to="/" color="inherit" style={sub}>ElectrHogar</Link>
           </Typography>
 
           {props.user.id ? (
           <React.Fragment>
             <Button color="inherit"><Link to="/products" color="inherit" style={sub}>Productos</Link></Button>
+            <Button color="inherit"><Link to="/categories" color="inherit" style={sub}>Categorías</Link></Button>
             <Button color="inherit" ref={anchorRef} aria-controls={open ? 'menu-list-grow' : undefined} aria-haspopup="true" onClick={handleToggle}>
               Hola, {props.user.firstName}!
               <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
@@ -143,11 +144,19 @@ export default (props) => {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    <MenuItem onClick={handleClose, props.handleLogout}>Cerrá Sesión</MenuItem>
                     { props.user.isAdmin===true ? (<div>
                       <Link to='/admin/products'  style={{color:'#000000DE', textDecoration:'none'}}><MenuItem onClick={handleClose}>Ver la lista de Productos</MenuItem></Link>
                       <Link to='/admin/newproduct'  style={{color:'#000000DE', textDecoration:'none'}}><MenuItem onClick={handleClose}>Agregar nuevo Producto</MenuItem></Link>
-                      </div>):null}
+                      <Link to='/admin/categories'  style={{color:'#000000DE', textDecoration:'none'}}><MenuItem onClick={handleClose}>Ver la lista de Categorías</MenuItem></Link>
+                      <Link to='/admin/newcategory'  style={{color:'#000000DE', textDecoration:'none'}}><MenuItem onClick={handleClose}>Agregar nueva Categoría</MenuItem></Link>
+                      <MenuItem onClick={handleClose, props.handleLogout}>Cerrá Sesión</MenuItem>
+                      </div>): <div>
+                      <Link to='/cart' style={{color:'#000000DE', textDecoration:'none'}}><MenuItem onClick={handleClose}>Mi carrito</MenuItem></Link>
+                        <MenuItem onClick={handleClose, props.handleLogout}>Cerrá Sesión</MenuItem>
+                        </div>}
+                      
+                      
+                      
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -160,10 +169,13 @@ export default (props) => {
           ) : ( 
              <React.Fragment>
               <Button color="inherit"><Link to="/products" color="inherit" style={sub}>Productos</Link></Button>
+              <Button color="inherit"><Link to="/categories" color="inherit" style={sub}>Categorías</Link></Button>
+              <Button color="inherit"><Link to="/cart" color="inherit" style={sub}>Carrito</Link></Button>
               <Button color="inherit"><Link to="/register" color="inherit" style={sub}>Registrate</Link></Button>
               <Button color="inherit"><Link to="/login" color="inherit" style={sub}>Iniciá Sesión</Link></Button>
             </React.Fragment>
           )}
+          <form onSubmit = {props.handleSubmit}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -175,8 +187,11 @@ export default (props) => {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onChange = {props.handleChange}
+              value = {props.search}
             />
           </div>
+          </form>
         </Toolbar>
       </AppBar>
     </div>

@@ -9,6 +9,9 @@ Category.init(
       type: S.STRING,
       allowNull: false,
     },
+    imgUrl: {
+      type: S.STRING,
+    }
   },
   { sequelize: db, modelName: "Category" }
 );

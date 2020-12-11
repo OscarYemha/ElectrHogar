@@ -15,6 +15,6 @@ export const fetchProducts = () => (dispatch) =>
     axios
     .get('http://localhost:1000/api/products')
     .then((res) => res.data)
-    .then((products) => { console.log("estos son los products= ",products)
-        dispatch(receiveProducts(products))});
+    .then((products) =>  
+        dispatch(receiveProducts(products)));
 

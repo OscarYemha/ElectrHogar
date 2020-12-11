@@ -313,10 +313,22 @@ const notebook4 = Product.create({
 });
 
 
-const category1 = Category.create({ name: "Televisores" });
-const category2 = Category.create({ name: "Heladeras" });
-const category3 = Category.create({ name: "Lavarropas" });
-const category4 = Category.create({ name: "Notebooks" });
+const category1 = Category.create({ 
+    name: "Televisores",
+    imgUrl: "https://cdn1.coppel.com/images/catalog/pm/2989433-1.jpg",
+});
+const category2 = Category.create({ 
+    name: "Heladeras",
+    imgUrl: "https://www.sumaelectrohogar.com.ar/752-thickbox_default/heladera-patrick-hpk-135-bl-01.jpg",
+});
+const category3 = Category.create({ 
+    name: "Lavarropas",
+    imgUrl: "https://www.carrefour.com.ar/media/catalog/product/7/7/7797075017158_05.jpg", 
+});
+const category4 = Category.create({ 
+    name: "Notebooks",
+    imgUrl: "https://s3-sa-east-1.amazonaws.com/saasargentina/nX5CbDcKZ8sZtwsUeFJq/imagen",
+});
 
 
 Promise.all([televisor1, category1]).then(([tv1, c1]) => {

@@ -17,12 +17,17 @@ const receiveSingleProduct = function (singleProduct) {
 };
 
 
-export const fetchProducts = () => (dispatch) =>
+export const fetchProducts = (searchString) => (dispatch) =>
     axios
-    .get('http://localhost:1000/api/products')
+    .get(`http://localhost:1000/api/products?search=${searchString}`)
     .then((res) => res.data)
-    .then((products) => { console.log("estos son los products= ",products)
-        dispatch(receiveProducts(products))});
+    .then((products) => { console.log("estos son los products= ", products);
+        if(products.length === 0){
+            dispatch(receiveProducts(["NA"]))
+        }else{
+            dispatch(receiveProducts(products))
+        }
+    });
         
 
 export const fetchSingleProduct = (id) => (dispatch) =>
@@ -33,3 +38,39 @@ export const fetchSingleProduct = (id) => (dispatch) =>
     .then((res) => res.data)
     .then((singleProduct) => { console.log("esto es el singleProduct = ", singleProduct)
         dispatch(receiveSingleProduct(singleProduct))});}
+
+
+export const clearProductInStore = () => (dispatch) => {
+    return dispatch(receiveProducts([]));
+};
+
+
+export const fetchProductsWithCategory = (searchString, category) => (dispatch) => {
+    if(searchString && category){
+        axios
+        .get(`http://localhost:1000/api/products?${searchString}&category=${category}`)
+        .then((res) => {
+            return res.data;
+        })
+        .then((products) => {
+            if(products.length === 0){
+                dispatch(receiveProducts(["NA"]));
+            }else {
+                dispatch(receiveProducts(products));
+            }
+        });
+    }else if(!searchString && category){
+        axios
+        .get(`http://localhost:1000/api/products?category=${category}`)
+        .then((res) => {
+            return res.data;
+        })
+        .then((products) => {
+            if(products.length === 0) {
+                dispatch(receiveProducts["NA"]);
+            }else {
+                dispatch(receiveProducts(products));
+            }
+        })
+    }
+}

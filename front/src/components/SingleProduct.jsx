@@ -1,7 +1,7 @@
 import React from "react";
 
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
+import Button from '@material-ui/core/Button';
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
@@ -15,7 +15,7 @@ const style = {
     marginRight: "10px",
   };
 
-export default function({singleProduct}) {
+export default function({singleProduct, handleCart}) {
     console.log('esto es el singleProduct = ',singleProduct)
     return(
             <Container>
@@ -51,14 +51,21 @@ export default function({singleProduct}) {
               <Card.Text>
                 
               </Card.Text>
-              <Link to='/products'>
-                <Button variant="dark" style={style}>
+              <Link to='/products' style={{textDecoration: 'none'}}>
+                <Button 
+                variant="contained"
+                color="primary"
+                style={{marginRight:'5px'}}
+                >
                    Volver
                 </Button>
               </Link>
               <Button
-                variant="dark"
-                style={style}
+                variant="contained"
+                color="primary"
+                onClick={()=>{
+                  handleCart(singleProduct)
+                }}
               >
                  Agregar al carrito
               </Button>

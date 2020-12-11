@@ -25,7 +25,7 @@ export const fetchAdminProducts = () => (dispatch) =>
 
 export const fetchAdminCategories = () => (dispatch) =>
     axios
-    .get('http://localhost:1000/api/admin/category')
+    .get('http://localhost:1000/api/admin/categories')
     .then((res) => res.data)
     .then((allcategories) => dispatch(receiveAdminCategories(allcategories)));
 
@@ -49,14 +49,14 @@ export const deleteAdminProduct = function (product) {
     };
 };
 
-export const addAdminCategory = function(category){
+export const createAdminCategory = function(category){
     return function(){
-        return axios.post(`http://localhost:1000/api/admin/newcategory`);
+        return axios.post(`http://localhost:1000/api/admin/newcategory`, {category});
     };
 };
 
 export const deleteAdminCategory = function(category){
     return function(){
-        return axios.put(`http://localhost:1000/api/admin/category/destroy`);
+        return axios.put(`http://localhost:1000/api/admin/category/destroy`, {category});
     };
 };

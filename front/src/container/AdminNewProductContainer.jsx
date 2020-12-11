@@ -1,9 +1,9 @@
 import React from 'react';
-import NewProduct from '../components/NewProduct';
+import AdminNewProduct from '../components/AdminNewProduct';
 import {connect} from 'react-redux';
 import {createAdminProduct, fetchAdminCategories} from '../actions/admin';
 
-class NewProductContainer extends React.Component{
+class AdminNewProductContainer extends React.Component{
     constructor(props){
         super(props);
 
@@ -22,6 +22,7 @@ class NewProductContainer extends React.Component{
         this.handleStock = this.handleStock.bind(this);
         this.handleDescription = this.handleDescription.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCategory = this.handleCategory.bind(this);
     }
 
     componentDidMount(){
@@ -58,6 +59,12 @@ class NewProductContainer extends React.Component{
         });
     }
 
+    handleCategory(e){
+        let cat = this.state.category
+        cat.push(e.id)
+        this.setState({category: cat})
+    }
+
     handleSubmit(e){
         e.preventDefault();
 
@@ -66,8 +73,9 @@ class NewProductContainer extends React.Component{
             price: this.state.price,
             imgUrl: this.state.imgUrl,
             stock: this.state.stock,
-            description: this.state.description,
-        })
+            description: this.state.description},
+            {category: this.state.category}
+        )
         
         this.props.history.push("/admin/products")
 
@@ -82,7 +90,7 @@ class NewProductContainer extends React.Component{
 
     render(){
         return(
-            <NewProduct
+            <AdminNewProduct
             allcategories={this.props.allcategories}
             handleName = {this.handleName}
             handlePrice = {this.handlePrice}
@@ -90,6 +98,7 @@ class NewProductContainer extends React.Component{
             handleStock = {this.handleStock}
             handleDescription = {this.handleDescription}
             handleSubmit = {this.handleSubmit}
+            handleCategory = {this.handleCategory}
             />
         )
     }
@@ -97,10 +106,11 @@ class NewProductContainer extends React.Component{
 }
 
 const mapStateToProps = (state) => {
+    console.log('state del NewProductContainer = ', state)
     return{
         allcategories: state.admin.allcategories
     }
 };
 
-export default connect(mapStateToProps, {createAdminProduct, fetchAdminCategories})(NewProductContainer)
+export default connect(mapStateToProps, {createAdminProduct, fetchAdminCategories})(AdminNewProductContainer)
 

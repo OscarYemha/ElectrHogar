@@ -10,7 +10,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary">
       {'Copyright © '}
       <Link color="inherit" href="/" style={{textDecoration:'none', color:'rgba(0, 0, 0, 0.54)'}}>
-        Your Website
+      ElectrHogar
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -44,7 +44,7 @@ export default function StickyFooter() {
       <CssBaseline />
       <footer className={classes.footer}>
         <Container maxWidth="sm">
-          <Typography variant="body1">TrucHogar</Typography>
+          <Typography variant="body1">ElectrHogar</Typography>
           <Copyright />
         </Container>
       </footer>
