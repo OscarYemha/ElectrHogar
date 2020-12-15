@@ -16,7 +16,7 @@ export default ({categoriesArray}) => (
          <Col md={3}>
               <Card style={{ width: "18rem", marginBottom:'5%' }}>
                 <Link
-                  to={`/categories/${c.name}`}
+                  to={`/products/${c.name}`}
                   style={{ textDecoration: "none", color: "black" }}
                 >
                   <Card.Img variant="top" src={c.imgUrl} style={{width:'15rem', marginLeft:'10%', height:'15rem'}}/>

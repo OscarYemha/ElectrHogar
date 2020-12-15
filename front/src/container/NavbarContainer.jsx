@@ -1,11 +1,10 @@
-import React from 'react'
+import React from 'react';
 import Navbar from '../components/Navbar';
 import {connect} from 'react-redux';
 import {userLogout} from '../actions/users';
 import {clearProductInStore} from '../actions/singleProduct';
-import {fetchProducts,fetchProductsName} from '../actions/products'
+import {fetchProducts,fetchProductsName} from '../actions/products';
 import {setSearchInStore} from '../actions/search';
-import SearchContainer from '../container/SearchContainer';
 
 class NavbarContainer extends React.Component{
     constructor(props){
@@ -38,7 +37,7 @@ class NavbarContainer extends React.Component{
       e.preventDefault();
       this.props.fetchProductsName(this.state.search);
       this.props.setSearchInStore(this.state.search);
-      this.props.history.push(`/search?=${this.state.search}`);
+      this.props.history.push(`/products?search=${this.state.search}`);
       this.setState({search: "",})
     }
 
@@ -64,9 +63,8 @@ class NavbarContainer extends React.Component{
             clearProductInStore = {this.props.clearProductInStore}
             user={this.props.user}
             />
-            <SearchContainer 
-            productName={this.props.productName}
-            />
+           
+            
             </div>
         )
     }
@@ -77,7 +75,6 @@ const mapStateToProps = function (state) {
     return {
       products: state.products.products,
       user: state.user.user,
-      productName: state.products.productName,
     };
   };
 

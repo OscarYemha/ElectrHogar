@@ -16,6 +16,7 @@ import AdminCategoriesContainer from './container/AdminCategoriesContainer';
 import CategoriesContainer from './container/CategoriesContainer';
 import CartContainer from './container/CartContainer';
 import SearchContainer from './container/SearchContainer';
+import SingleCategoryContainer from './container/SingleCategoryContainer';
 
 
 class Main extends React.Component {
@@ -35,11 +36,12 @@ class Main extends React.Component {
                             <Route exact path="/" render={() => (
                                 <div>
                                     
-                                    
+                                    <Redirect to="/products"/>
                                     <FooterContainer/>
                                 </div>
                             )} />
                             <Route exact path="/products" component={ProductsContainer} />
+                            <Route exact path="/products/:name" component={ProductsContainer} />
                             <Route path="/singleproduct/:id" component={SingleProductContainer} />
                             <Route path='/login' component={LoginContainer}/>
                             <Route path='/register' component={RegisterContainer}/>
@@ -51,7 +53,8 @@ class Main extends React.Component {
                             <Route exact path='/categories' component={CategoriesContainer}/>
                             <Route path="/cart" component={CartContainer} />
                             <Route path="/search" component={SearchContainer} />
-                            <Redirect to="/products"/>
+                            <Route exact path='/categories/:id' component={SingleCategoryContainer}/>
+                            
                         </Switch>
                         
                 </div>

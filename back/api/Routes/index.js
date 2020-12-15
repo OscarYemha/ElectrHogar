@@ -50,7 +50,11 @@ router.get('/singleproduct/:id', (req,res) => {
 
 
 router.get('/categories', (req,res) => {
-  Category.findAll().then((category) => {
+  Category.findAll({
+    include:[{
+      model: Product
+    }]
+  }).then((category) => {
     res.send(category);
   })
 });

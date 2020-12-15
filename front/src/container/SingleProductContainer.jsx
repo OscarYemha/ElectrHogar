@@ -7,7 +7,7 @@ import {userCart, allCart} from '../actions/cart'
 class SingleProductContainer extends React.Component{
     constructor(props){
         super(props);
-        console.log('props del singleProduct', this.props)
+        console.log('props del singleProductContainer', this.props)
 
         this.handleCart = this.handleCart.bind(this);
     }
@@ -50,8 +50,8 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) =>{
       return{
           fetchSingleProduct: (id)=> dispatch(fetchSingleProduct(id)),
-          userCart,
-          allCart
+          userCart : ()=> dispatch(userCart()),
+          allCart: () => dispatch(allCart())
       }
   }
   

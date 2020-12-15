@@ -5,7 +5,7 @@ import {fetchProducts} from '../actions/products'
 import {fetchSingleProduct, fetchProductsWithCategory} from '../actions/singleProduct';
 import { userCart, allCart, addToVirtualCart } from "../actions/cart";
 import FooterContainer from './FooterContainer';
-import Jumbotron from '../components/Jumbotron'
+import Jumbotron from '../components/Jumbotron';
 
 class ProductsContainer extends React.Component{
 
@@ -80,18 +80,24 @@ class ProductsContainer extends React.Component{
         });
       }
     }
-
+    
     render(){
       let filteredProducts = this.props.products &&this.props.products.filter(product => 
          product.name.toLowerCase().includes(this.props.productName))
-      console.log('filteredProducts = ',filteredProducts);
+      // console.log('filteredProducts = ',filteredProducts);
+      console.log("props.categoryArray = ",this.props.categoryArray)
         return(
             <div>
+
               <Jumbotron/>
-            <Products
+              {this.props.categoryArray.length>0 ? <Products
+            handleCart={this.handleCart}
+            productsArray={this.props.categoryArray}
+            /> :  <Products
             handleCart={this.handleCart}
             productsArray={filteredProducts.length>0 ? filteredProducts : this.props.products}
-            />
+            />}
+           
             <FooterContainer/>
             </div>
         )
@@ -99,12 +105,17 @@ class ProductsContainer extends React.Component{
 
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     console.log("state del ProductsContainer = ",state)
+    console.log("ownProps del ProductsContainer = ",ownProps.match.params.name)
+    const categoryName = ownProps.match.params.name;
     return {
       products: state.products.products,
       singleProduct: state.singleProduct.singleProduct,
-      user: state.user.user
+      user: state.user.user,
+      productName: state.products.productName,
+      categoryArray: state.products.products.filter(product => product.Categories[0].name.includes(categoryName))
+        
     };
   };
 

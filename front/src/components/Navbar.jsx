@@ -273,7 +273,7 @@ export default(props)=>{
       
     </Nav>
     <Form inline onSubmit={props.handleSubmit}>
-      <FormControl type="text" placeholder="Buscá tu producto" className="mr-sm-2" onChange={props.handleChange}
+      <FormControl type="text" placeholder="Buscá tu producto..." className="mr-sm-2" onChange={props.handleChange}
       value={props.busqueda} />
       
     </Form>

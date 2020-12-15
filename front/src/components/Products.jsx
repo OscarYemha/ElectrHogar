@@ -14,7 +14,7 @@ export default ({ productsArray, handleCart }) => (
           console.log('productsArray del productsContainer = ',productsArray)
           return (
             <Col md={3}>
-              <Card style={{ width: "19rem", height:'30rem', marginBottom:'5%', zIndex:'0' }}>
+              <Card style={{ width: "19rem", height:'31rem', marginBottom:'5%'}}>
                 <Link
                   to={`/singleproduct/${p.id}`}
                   style={{ textDecoration: "none", color: "black" }}
@@ -23,6 +23,7 @@ export default ({ productsArray, handleCart }) => (
                 </Link>
                 <Card.Body>
                   <Card.Title>{p.name}</Card.Title>
+                  <Card.Title>$ {p.price}</Card.Title>
                   <Card.Text>{p.description.slice(0, 80) + "..."}</Card.Text>
                   <Button
                     color="action"
