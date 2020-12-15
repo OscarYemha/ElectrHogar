@@ -103,6 +103,7 @@ class AdminEditProductContainer extends React.Component{
             category = {this.state.category}
             singleProduct = {this.props.singleProduct}
             state = {this.state}
+            user = {this.props.user}
             />
         )
     }
@@ -114,7 +115,8 @@ const mapStateToProps = (state) => {
     console.log("state del EditProductContainer = ", state)
     return{
         singleProduct: state.singleProduct.singleProduct,
-        allcategories : state.admin.allcategories
+        allcategories : state.admin.allcategories,
+        user: state.user.user
     }
 }
 

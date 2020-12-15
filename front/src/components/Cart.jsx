@@ -99,7 +99,7 @@ console.log("props del component Cart", props);
             })
           : null}
       </Table>
-      <p>TOTAL: $ {total}</p>
+      <h2>TOTAL: $ {total}</h2>
       <Button
         className="btn btn-dark"
         onClick={() => {

@@ -3,6 +3,7 @@ import Categories from '../components/Categories';
 import {connect} from 'react-redux';
 import {fetchCategories} from '../actions/categories';
 import FooterContainer from './FooterContainer';
+import Jumbotron from '../components/Jumbotron';
 
 class CategoriesContainer extends React.Component {
     constructor(props){
@@ -17,6 +18,7 @@ class CategoriesContainer extends React.Component {
     render(){
         return(
             <div>
+                <Jumbotron/>
                 <Categories
                 categoriesArray = {this.props.categories}
                 />
@@ -28,6 +30,7 @@ class CategoriesContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log("state del CategoriesContainer = ",state)
     return{
         categories: state.categories.categories,
     }

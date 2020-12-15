@@ -25,6 +25,7 @@ class AdminCategoriesContainer extends React.Component {
     render(){
         return(
             <AdminCategories
+            user = {this.props.user}
             allcategories = {this.props.allcategories}
             handleDelete = {this.handleDelete}
             />
@@ -34,7 +35,8 @@ class AdminCategoriesContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return{
-        allcategories: state.admin.allcategories
+        allcategories: state.admin.allcategories,
+        user : state.user.user
     }
 }
 

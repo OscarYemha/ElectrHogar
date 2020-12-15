@@ -17,18 +17,7 @@ const receiveSingleProduct = function (singleProduct) {
 };
 
 
-export const fetchProducts = (searchString) => (dispatch) =>
-    axios
-    .get(`http://localhost:1000/api/products?search=${searchString}`)
-    .then((res) => res.data)
-    .then((products) => { console.log("estos son los products= ", products);
-        if(products.length === 0){
-            dispatch(receiveProducts(["NA"]))
-        }else{
-            dispatch(receiveProducts(products))
-        }
-    });
-        
+
 
 export const fetchSingleProduct = (id) => (dispatch) =>
 

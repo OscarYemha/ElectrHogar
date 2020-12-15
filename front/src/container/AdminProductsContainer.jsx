@@ -28,6 +28,7 @@ class AdminProductsContainer extends React.Component {
             <AdminProducts 
             allproducts = {this.props.allproducts}
             handleDelete = {this.handleDelete}
+            user = {this.props.user}
             />
         )
     }
@@ -37,6 +38,7 @@ const mapStateToProps = (state) => {
     console.log('state del AdminProductContainer', state)
     return{
         allproducts: state.admin.allproducts,
+        user: state.user.user,
     }
 }
 

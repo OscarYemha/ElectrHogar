@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import {Link} from 'react-router-dom';
 import {Form} from 'react-bootstrap';
 import EditIcon from '@material-ui/icons/Edit';
+import Error from './Error';
 
 function Copyright() {
   return (
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({allcategories, handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit, handleCategory, state}) => {
+export default ({allcategories, handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit, handleCategory, state, user}) => {
   console.log("state del EditProduct Component = ", state)
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -68,6 +69,8 @@ export default ({allcategories, handleName, handlePrice, handleImg, handleStock,
   // };
 
   return (
+    <div>
+      {user.id && user.isAdmin === true ?(
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -204,5 +207,7 @@ export default ({allcategories, handleName, handlePrice, handleImg, handleStock,
         <Copyright />
       </Box>
     </Container>
+  ):(<Error/>)}
+    </div>
   );
 }

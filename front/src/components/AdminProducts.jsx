@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import Error from './Error';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -12,12 +13,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({allproducts, handleDelete}) => {
+export default ({allproducts, handleDelete, user}) => {
 
   const classes = useStyles();
 
     return (
-    
+    <div>
+      {user.id && user.isAdmin === true ?(
     <div className="container" style={{ marginTop: "50px", width: "100%" }}>
       <Table striped bordered hover>
         <thead>
@@ -59,6 +61,8 @@ export default ({allproducts, handleDelete}) => {
             })
           : null}
       </Table>
+    </div>
+    ):(<Error/>)}
     </div>
   )
    

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import {Route, Switch} from 'react-router-dom';
+import {Route, Switch, Redirect} from 'react-router-dom';
 import {isLog} from './actions/users';
 import LoginContainer from './container/LoginContainer';
 import RegisterContainer from './container/RegisterContainer';
@@ -8,7 +8,6 @@ import FooterContainer from './container/FooterContainer';
 import NavbarContainer from './container/NavbarContainer';
 import ProductsContainer from './container/ProductsContainer';
 import SingleProductContainer from './container/SingleProductContainer';
-import CarouselContainer from './container/CarouselContainer';
 import AdminProductsContainer from './container/AdminProductsContainer';
 import AdminNewProductContainer from './container/AdminNewProductContainer';
 import AdminEditProductContainer from './container/AdminEditProductContainer';
@@ -16,6 +15,8 @@ import AdminNewCategoryContainer from './container/AdminNewCategoryContainer';
 import AdminCategoriesContainer from './container/AdminCategoriesContainer';
 import CategoriesContainer from './container/CategoriesContainer';
 import CartContainer from './container/CartContainer';
+import SearchContainer from './container/SearchContainer';
+
 
 class Main extends React.Component {
 
@@ -28,12 +29,13 @@ class Main extends React.Component {
             
                 
                 <div id="Main">
+                    
                         <NavbarContainer history = {this.props.history}/>
                         <Switch>
                             <Route exact path="/" render={() => (
                                 <div>
                                     
-                                    <CarouselContainer />
+                                    
                                     <FooterContainer/>
                                 </div>
                             )} />
@@ -48,8 +50,10 @@ class Main extends React.Component {
                             <Route exact path='/admin/categories' component={AdminCategoriesContainer}/>
                             <Route exact path='/categories' component={CategoriesContainer}/>
                             <Route path="/cart" component={CartContainer} />
+                            <Route path="/search" component={SearchContainer} />
+                            <Redirect to="/products"/>
                         </Switch>
-                    
+                        
                 </div>
         )
     }

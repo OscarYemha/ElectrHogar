@@ -99,6 +99,7 @@ class AdminNewProductContainer extends React.Component{
             handleDescription = {this.handleDescription}
             handleSubmit = {this.handleSubmit}
             handleCategory = {this.handleCategory}
+            user = {this.props.user}
             />
         )
     }
@@ -108,7 +109,8 @@ class AdminNewProductContainer extends React.Component{
 const mapStateToProps = (state) => {
     console.log('state del NewProductContainer = ', state)
     return{
-        allcategories: state.admin.allcategories
+        allcategories: state.admin.allcategories,
+        user: state.user.user,
     }
 };
 

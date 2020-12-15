@@ -2,8 +2,10 @@ import React from 'react'
 import Navbar from '../components/Navbar';
 import {connect} from 'react-redux';
 import {userLogout} from '../actions/users';
-import {fetchProducts, clearProductInStore} from '../actions/singleProduct';
+import {clearProductInStore} from '../actions/singleProduct';
+import {fetchProducts,fetchProductsName} from '../actions/products'
 import {setSearchInStore} from '../actions/search';
+import SearchContainer from '../container/SearchContainer';
 
 class NavbarContainer extends React.Component{
     constructor(props){
@@ -25,7 +27,8 @@ class NavbarContainer extends React.Component{
     }
 
     handleChange(e){
-      this.setState({search: e.target.value})
+      const event = (e.target.value).toLowerCase()
+      this.setState({search: event})
     }
 
     handleSubmit(e){
@@ -33,10 +36,15 @@ class NavbarContainer extends React.Component{
       console.log("state del handleSubmit del NavbarContainer =", this.state)
       console.log("props del handleSubmit del NavbarContainer =", this.props)
       e.preventDefault();
-      this.props.fetchProducts(this.state.search);
+      this.props.fetchProductsName(this.state.search);
       this.props.setSearchInStore(this.state.search);
-      this.props.history.push(`/products?search=${this.state.search}`);
+      this.props.history.push(`/search?=${this.state.search}`);
       this.setState({search: "",})
+    }
+
+    componentDidMount(){
+      console.log('entre al did mount deel navbarcontainer')
+      this.props.fetchProducts();
     }
 
 
@@ -47,6 +55,7 @@ class NavbarContainer extends React.Component{
       // })
 
         return(
+          <div>
             <Navbar
             handleLogout={this.handleLogout}
             handleChange = {this.handleChange}
@@ -55,6 +64,10 @@ class NavbarContainer extends React.Component{
             clearProductInStore = {this.props.clearProductInStore}
             user={this.props.user}
             />
+            <SearchContainer 
+            productName={this.props.productName}
+            />
+            </div>
         )
     }
 
@@ -64,11 +77,15 @@ const mapStateToProps = function (state) {
     return {
       products: state.products.products,
       user: state.user.user,
+      productName: state.products.productName,
     };
   };
+
+
   
   export default connect(mapStateToProps, {
     fetchProducts,
+    fetchProductsName,
     userLogout,
     clearProductInStore,
     setSearchInStore,

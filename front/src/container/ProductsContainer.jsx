@@ -5,6 +5,7 @@ import {fetchProducts} from '../actions/products'
 import {fetchSingleProduct, fetchProductsWithCategory} from '../actions/singleProduct';
 import { userCart, allCart, addToVirtualCart } from "../actions/cart";
 import FooterContainer from './FooterContainer';
+import Jumbotron from '../components/Jumbotron'
 
 class ProductsContainer extends React.Component{
 
@@ -18,20 +19,22 @@ class ProductsContainer extends React.Component{
     }
 
     componentDidMount(){
+        this.props.fetchProducts();
+
         console.log("props del componentDidMount del ProductsContainer = ", this.props)
-        let searchParams = new URLSearchParams(this.props.location.search.slice(1));
-        console.log("searchParams = ",searchParams);
-        let sear = searchParams.get("search");
-        let categ = searchParams.get("category");
-        if (!sear && !categ) {
-            return this.props.fetchProducts();
-          } else if (sear && !categ) {
-            return this.props.fetchSingleProduct(sear);
-          } else if (!sear && categ) {
-            return this.props.fetchProductsWithCategory(sear, categ);
-          } else if (sear && categ) {
-            return this.props.fetchProductsWithCategory(sear, categ);
-          }
+        // let searchParams = new URLSearchParams(this.props.location.search.slice(1));
+        // console.log("searchParams = ",searchParams);
+        // let sear = searchParams.get("search");
+        // let categ = searchParams.get("category");
+        // if (!sear && !categ) {
+        //     return this.props.fetchProducts();
+        //   } else if (sear && !categ) {
+        //     return this.props.fetchSingleProduct(sear);
+        //   } else if (!sear && categ) {
+        //     return this.props.fetchProductsWithCategory(sear, categ);
+        //   } else if (sear && categ) {
+        //     return this.props.fetchProductsWithCategory(sear, categ);
+        //   }
         // this.props.fetchProducts();
     }
 
@@ -79,14 +82,15 @@ class ProductsContainer extends React.Component{
     }
 
     render(){
-      let filteredProducts = this.props.products.filter(product =>{
-        return product.name.toLowerCase().indexOf(this.state.search) !==1;
-      })
+      let filteredProducts = this.props.products &&this.props.products.filter(product => 
+         product.name.toLowerCase().includes(this.props.productName))
+      console.log('filteredProducts = ',filteredProducts);
         return(
             <div>
+              <Jumbotron/>
             <Products
             handleCart={this.handleCart}
-            productsArray={this.props.products}
+            productsArray={filteredProducts.length>0 ? filteredProducts : this.props.products}
             />
             <FooterContainer/>
             </div>
@@ -103,6 +107,7 @@ const mapStateToProps = (state) => {
       user: state.user.user
     };
   };
+
 
 export default connect(mapStateToProps, {
     fetchProducts, fetchSingleProduct,fetchProductsWithCategory, userCart, allCart, addToVirtualCart

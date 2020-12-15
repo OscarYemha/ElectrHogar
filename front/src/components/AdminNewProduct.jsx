@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Link} from 'react-router-dom';
 import {Form} from 'react-bootstrap';
+import Error from './Error';
 
 function Copyright() {
   return (
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({allcategories, handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit, handleCategory}) => {
+export default ({allcategories, handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit, handleCategory, user}) => {
   console.log("allcategories del newProduct component = ", allcategories)
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -68,6 +69,8 @@ export default ({allcategories, handleName, handlePrice, handleImg, handleStock,
   // };
 
   return (
+    <div>
+      {user.id && user.isAdmin === true ? (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -198,6 +201,7 @@ export default ({allcategories, handleName, handlePrice, handleImg, handleStock,
       <Box mt={5}>
         <Copyright />
       </Box>
-    </Container>
+    </Container>):(<Error/>)}
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
-const {User, Product, Cart, CartProductQuantity, Category} = require('../Models/index');
+const {User, Product, Cart, CartProductQuantity, Category, Category_Product} = require('../Models/index');
 const S = require('sequelize');
 
 
@@ -31,10 +31,15 @@ router.post("/logout", (req, res) => {
 
 
 router.get('/products', (req,res) => {
-  Product.findAll().then((product) => {
+  Product.findAll({
+    include:[{
+      model: Category
+    }]
+  }).then((product) => {
     res.send(product);
   })
 });
+
 
 router.get('/singleproduct/:id', (req,res) => {
   Product.findByPk(req.params.id).then((singleproduct) => {
@@ -49,6 +54,22 @@ router.get('/categories', (req,res) => {
     res.send(category);
   })
 });
+
+// router.get('/singlecategory/:id', (req,res) => {
+//     Category.findByPk(req.params.id).then((singleCategory) => {
+//       // console.log('singleCategory', singleCategory)
+      
+//       res.send(singleCategory);
+//     })
+//   });
+
+// router.get('/singlecategory/:id', (req,res) => {
+//   Category.findByPk(req.params.id).then((singleCategory) => {
+//     // console.log('singleCategory', singleCategory)
+    
+//     res.send(singleCategory);
+//   })
+// });
 
 
 router.get("/users", (req, res) => {
@@ -79,8 +100,12 @@ router.get("/admin",(req,res) => {
 });
 
 router.get("/admin/products", (req,res) => {
-  Product.findAll().then((products) => {
-    res.send(products)
+  Product.findAll({
+    include:[{
+      model: Category
+    }]
+  }).then((product) => {
+    res.send(product);
   })
 });
 

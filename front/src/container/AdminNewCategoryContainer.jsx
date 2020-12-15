@@ -47,6 +47,7 @@ class AdminNewCategoryContainer extends React.Component{
             handleName = {this.handleName}
             handleImg = {this.handleImg}
             handleSubmit = {this.handleSubmit}
+            user = {this.props.user}
             />
         )
     }

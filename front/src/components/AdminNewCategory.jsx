@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Link} from 'react-router-dom';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Error from './Error';
 
 function Copyright() {
   return (
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({handleSubmit, handleName, handleImg}) => {
+export default ({handleSubmit, handleName, handleImg, user}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {
@@ -55,6 +56,9 @@ export default ({handleSubmit, handleName, handleImg}) => {
   };
 
   return (
+    <div>
+
+      {user.id && user.isAdmin === true ? (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
@@ -107,6 +111,7 @@ export default ({handleSubmit, handleName, handleImg}) => {
       <Box mt={5}>
         <Copyright />
       </Box>
-    </Container>
+    </Container>):(<Error/>)}
+    </div>
   );
 }

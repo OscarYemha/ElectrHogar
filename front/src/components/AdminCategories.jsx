@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Error from './Error';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -11,12 +12,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({allcategories, handleDelete}) => {
+export default ({user, allcategories, handleDelete}) => {
 
   const classes = useStyles();
 
     return (
-    
+      <div>
+    {user.id && user.isAdmin === true ?
+      (
     <div className="container" style={{ marginTop: "50px", width: "100%" }}>
       <Table striped bordered hover>
         <thead>
@@ -50,6 +53,8 @@ export default ({allcategories, handleDelete}) => {
           : null}
       </Table>
     </div>
-  )
+      ):(<Error/>)
+          }
+  </div>)
    
 }
