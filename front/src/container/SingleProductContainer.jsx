@@ -2,7 +2,7 @@ import React from 'react';
 import SingleProduct from '../components/SingleProduct';
 import {connect} from 'react-redux';
 import {fetchSingleProduct} from '../actions/singleProduct';
-import {userCart, allCart} from '../actions/cart'
+import {userCart, allCart, addToVirtualCart} from '../actions/cart'
 
 class SingleProductContainer extends React.Component{
     constructor(props){
@@ -19,7 +19,7 @@ class SingleProductContainer extends React.Component{
 
     handleCart(product) {
         console.log("product SingleProductContainer handleCart = ", product)
-        this.props.userCart(product, this.props.user)
+        this.props.userCart(this.props.singleProduct, this.props.user)
         .then(() => {
           this.props.allCart(this.props.user.id);
         });
@@ -50,8 +50,9 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) =>{
       return{
           fetchSingleProduct: (id)=> dispatch(fetchSingleProduct(id)),
-          userCart : ()=> dispatch(userCart()),
-          allCart: () => dispatch(allCart())
+          userCart : (singleProduct, user)=> dispatch(userCart(singleProduct, user)),
+          allCart: (user) => dispatch(allCart(user)),
+          addToVirtualCart: () => dispatch(addToVirtualCart())
       }
   }
   

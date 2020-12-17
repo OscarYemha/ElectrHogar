@@ -2,7 +2,7 @@ import React from 'react';
 import Cart from '../components/Cart';
 import {connect} from 'react-redux';
 import {fetchTotal, addToVirtualCart, allCart, deleteProduct, quantityProduct} from '../actions/cart';
-
+import FooterContainer from './FooterContainer'
 
 class CartContainer extends React.Component {
     constructor(props){
@@ -25,50 +25,21 @@ class CartContainer extends React.Component {
     }
 
     handleDelete(product){
-        if (!this.props.user.id) {
-            //Si no hay usuario
-            let arrayVirtualCart = JSON.parse(localStorage.getItem("cart"));
-            let indice = "";
-            arrayVirtualCart.map((elem, index) => {
-              if (elem.id === product.id) {
-                indice = index;
-              }
-            });
-            arrayVirtualCart.splice(indice, 1);
-            localStorage.setItem("cart", JSON.stringify(arrayVirtualCart));
       
-            let virtualCartVariable = JSON.parse(localStorage.getItem("cart"));
-            this.props.addVirtualCart(virtualCartVariable);
-          } else {
             //Si hay usuario
             this.props.deleteProduct(product, this.props.user).then(() => {
               this.props.allCart(this.props.user.id);
             });
-          }
+          
     }
 
     handleQuantityProduct(product, cant) {
-        if (this.props.user.id) {
+        
           //Si hay Usuario
           this.props.quantityProduct(product, this.props.user, cant).then(() => {
             this.props.allCart(this.props.user.id);
-          });
-        } else {
-          //Si no hay usuario
-          let arrayVirtualCart = JSON.parse(localStorage.getItem("cart"));
-          let indice = "";
-          arrayVirtualCart.map((elem, index) => {
-            if (elem.id === product.id) {
-              indice = index;
-            }
-          });
-          arrayVirtualCart[indice].CartProductQuant.quantity =
-            arrayVirtualCart[indice].CartProductQuant.quantity + cant.cant;
-          localStorage.setItem("cart", JSON.stringify(arrayVirtualCart));
-    
-          let virtualCartVariable = JSON.parse(localStorage.getItem("cart"));
-          this.props.addVirtualCart(virtualCartVariable);
-        }
+          });      
+        
       }
 
       handleTotal(total){
@@ -87,6 +58,7 @@ class CartContainer extends React.Component {
                    cart = {this.props.cart}
                    handleTotal = {this.handleTotal}         
                 />
+                <FooterContainer/>
             </div>
         )
     }

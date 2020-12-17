@@ -5,6 +5,7 @@ const db = require("./api/db/db");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 const helmet = require("helmet");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -14,7 +15,13 @@ const { User, Category, Product, Cart, CartProductQuantity } = require("./api/Mo
 
 const app = express();
 app.use(helmet());
-app.use(cors({credentials:true}));
+app.use(
+  cors({
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+    origin: true,
+  }),
+);
 app.use(morgan("tiny"));
 app.use(cookieParser());
 app.use(parser.json());
@@ -24,7 +31,7 @@ app.use(express.static("public"));
 
 app.use(
   session({
-    secret: "truchogar",
+    secret: "electroghogar",
     resave: true,
     saveUninitialized: true,
   })
@@ -57,13 +64,46 @@ passport.use(
   )
 );
 
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: "410671063704641",
+      clientSecret: "87f37475cab65bc6197ac53e4f377fbe",
+      callbackURL: "http://localhost:1000/api/auth/facebook/callback",
+      profileFields: ["email", "name"],
+    },
+    function (accessToken, refreshToken, profile, cb) {
+      console.log("profile = ", profile);
+
+      User.findOne({
+        where: {
+          email: profile.emails[0].value,
+        },
+      }).then((user) => {
+        if (!user) {
+          User.create({
+            firstName: profile.name.givenName,
+            lastName: profile.name.familyName,
+            email: profile.emails[0].value,
+            password: profile.id,
+          }).then((user) => {
+            cb(null, user);
+          });
+        } else {
+          cb(null, user);
+        }
+      });
+    }
+  )
+);
+
 passport.serializeUser((user, done) => {
   console.log("Entro al serialize", user.id)
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  console.log("Entro al deserialize", user)
+  // console.log("Entro al deserialize", user.id)
   User.findByPk(id)
     .then((user) => {
       done(null, user);

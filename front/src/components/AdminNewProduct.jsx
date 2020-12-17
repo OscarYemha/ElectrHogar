@@ -52,6 +52,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export default ({allcategories, handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit, handleCategory, user}) => {
   console.log("allcategories del newProduct component = ", allcategories)
   const classes = useStyles();
@@ -146,41 +148,23 @@ export default ({allcategories, handleName, handlePrice, handleImg, handleStock,
                 id="descripcion"
                 autoComplete="descripcion"
                 onChange={handleDescription}
+                style={{marginBottom:'10px'}}
               />
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                id="outlined-select-currency-native"
-                select
-                label="Categoría"
-                fullWidth
-                // onChange={handleChange}
-                SelectProps={{
-                  native: true,
-                }}
-                variant="outlined"
-                >
-               { allcategories && allcategories.length > 0 ?
-                  allcategories.map((c)=>{
-                  <option value={c.name}>
-                    {c.name}
-                  </option>
-                }):null
-              }
-                </TextField>
-              </Grid>
+              
           </Grid>
           { allcategories && allcategories.length > 0 ?
                     allcategories.map((c)=>{
                         return (
                 <Form.Group className="custom-control-inline" key={c.id}>
-                    <span >
-                        <Button fullWidth
-            variant="contained"
-            color="primary" 
-            onClick= {() =>{handleCategory(c)} }
-            >{c.name}</Button>
-                    </span>
+                    
+                        <Button 
+                        fullWidth
+                        variant="contained"
+                        color="primary" 
+                        onClick= {() =>{handleCategory(c)} }
+                        >{c.name}</Button>
+                    
                 </Form.Group>
                         )
                     }) : null

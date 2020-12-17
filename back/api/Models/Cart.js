@@ -1,19 +1,31 @@
-const S = require ('sequelize');
-const db = require('../db/db');
+const S = require("sequelize");
+const db = require("../db/db");
 
 class Cart extends S.Model {}
 
 Cart.init(
-    {
-        state: {
-            type: S.BOOLEAN,
-            defaultValue: false,
-        },
-        totalPrice: {
-            type: S.FLOAT,
-        }
+  {
+    isPaid: {
+      type: S.BOOLEAN,
+      defaultValue: false,
     },
-    {sequelize: db, modelName: 'Cart'}
+    total: {
+      type: S.FLOAT,
+    },
+    address: {
+      type: S.STRING,
+    },
+    cardNumber: {
+      type: S.INTEGER,
+    },
+    cardCvv: {
+      type: S.INTEGER,
+    },
+    date: {
+      type: S.DATE,
+    },
+  },
+  { sequelize: db, modelName: "Cart" }
 );
 
 module.exports = Cart;

@@ -2,34 +2,35 @@ const router = require('express').Router();
 const passport = require('passport');
 const {User, Product, Cart, CartProductQuantity, Category, Category_Product} = require('../Models/index');
 const S = require('sequelize');
+const nodemailer = require('nodemailer');
 
 
 
-// router.get("/", (req,res) => {
-//     res.send("Estamos en el back")
-// });
-
-
+// -------- User Register Route -------- //
 router.post("/register", (req, res) => {
-  //console.log('req.body del /register=',req.body)
     User.create(req.body).then((users) => {
       console.log("Estás registrado!");
       res.send(users);
     });
 });
 
+// -------- User Login Route -------- //
 router.post("/login", passport.authenticate("local"), (req, res) => {
     console.log("Estás logueado!");
     res.send(req.user);
 });
 
+// -------- User LogOut Route -------- //
 router.post("/logout", (req, res) => {
-    console.log("Te deslogueaste!");
-    req.logOut();
+    if(req.isAuthenticated()){
+      console.log("Te deslogueaste!");
+      req.logOut();
+    }  
     res.sendStatus(200);
 });
 
 
+// -------- Products Routes -------- //
 router.get('/products', (req,res) => {
   Product.findAll({
     include:[{
@@ -40,7 +41,6 @@ router.get('/products', (req,res) => {
   })
 });
 
-
 router.get('/singleproduct/:id', (req,res) => {
   Product.findByPk(req.params.id).then((singleproduct) => {
     console.log('singleProduct desde el back',singleproduct)
@@ -49,6 +49,7 @@ router.get('/singleproduct/:id', (req,res) => {
 });
 
 
+// -------- Category Route -------- //
 router.get('/categories', (req,res) => {
   Category.findAll({
     include:[{
@@ -59,39 +60,20 @@ router.get('/categories', (req,res) => {
   })
 });
 
-// router.get('/singlecategory/:id', (req,res) => {
-//     Category.findByPk(req.params.id).then((singleCategory) => {
-//       // console.log('singleCategory', singleCategory)
-      
-//       res.send(singleCategory);
-//     })
-//   });
 
-// router.get('/singlecategory/:id', (req,res) => {
-//   Category.findByPk(req.params.id).then((singleCategory) => {
-//     // console.log('singleCategory', singleCategory)
-    
-//     res.send(singleCategory);
-//   })
-// });
-
-
+// -------- User Routes -------- //
 router.get("/users", (req, res) => {
   User.findAll().then((users) => {
     res.send(users);
   });
 });
 
-
 router.get("/me", (req, res) => {
-    if (!req.isAuthenticated()) {
-      return res.sendStatus(401);
-    }
-    console.log('Estás en tu perfil!', req.user)
     res.send(req.user);
 });
 
 
+// -------- Admin Routes -------- //
 router.get("/admin",(req,res) => {
   User.findAll({
     where: {
@@ -158,6 +140,38 @@ router.post('/admin/newcategory', (req,res) => {
 });
 
 
+router.get("/admin/users", (req, res) => {
+  User.findAll({}).then((users) => {
+      console.log("USERS ADMIN", users)
+    res.send(users);
+  });
+});
+
+
+router.put("/admin/users/destroy", (req, res) => {
+  User.destroy({
+    where: {
+      id: req.body.user.id,
+    },
+  })
+  .then(() => res.sendStatus(200));
+});  
+
+router.put("/admin/users/rol", (req, res) => {
+  let newRole;
+  if (req.body.rol === false) {
+    newRole = true;
+  }
+  User.update({isAdmin: newRole},{
+    where: {
+      id: req.body.user.id,
+    },
+  })
+  .then(() => res.sendStatus(200));
+}); 
+
+
+// -------- Cart Routes -------- //
 router.post("/cart", (req, res) => {
   const productId = req.body.product.id;
   const userId = req.body.user.id;
@@ -170,7 +184,7 @@ router.post("/cart", (req, res) => {
   Cart.findAll({
     where: {
       UserId: req.body.user.id,
-      state: false,
+      isPaid: false,
     },
     include: [{ model: Product }],
   })
@@ -216,7 +230,7 @@ router.put("/cart", (req, res) => {
   Cart.findAll({
     where: {
       UserId: req.body.user.id,
-      state: false,
+      isPaid: false,
     },
     include: [{ model: Product }],
   }).then((cart) => {
@@ -235,7 +249,7 @@ router.get("/cart/:userId", (req, res) => {
   Cart.findAll({
     where: {
       UserId: req.params.userId,
-      state: false
+      isPaid: false
     },
     include: [{ model: Product }],
   }).then((cart) => {
@@ -249,7 +263,7 @@ router.put("/cart/cant", (req, res) => {
   Cart.findAll({
     where: {
       UserId: req.body.user.id,
-      state: false,
+      isPaid: false,
     },
     include: [{ model: Product }],
   })
@@ -275,7 +289,7 @@ router.put("/cart/destroy", (req, res) => {
   Cart.findAll({
     where: {
       UserId: req.body.user.id,
-      state: false,
+      isPaid: false,
     },
     include: [{ model: Product }],
   })
@@ -292,5 +306,76 @@ router.put("/cart/destroy", (req, res) => {
     .then(() => res.sendStatus(200));
 });
 
+router.get(
+  "/auth/facebook",
+  passport.authenticate("facebook", { scope: ["email"] })
+);
+
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  function (req, res) {
+    res.redirect("http://localhost:3001");
+  }
+);
+
+var transporter = nodemailer.createTransport({
+  service: "gmail",
+  secure: false,
+  auth: {
+    user: "oscaryemha1990@gmail.com",
+    pass: "electrhogar",
+    // type: 'OAuth2',
+    // clientId: '1089617730119-6f040dri7uf24jv9pnaajqof5c4ubv67.apps.googleusercontent.com',
+    // clientSecret: 'QVIv4FbBiP7WV7_BuDssWDB2',
+  },
+  tls: { rejectUnauthorized: false },
+});
+
+router.put("/checkout", (req, res) => {
+  var mailOptions = {
+    from: "oscaryemha1990@gmail.com",
+    to: req.body.user.email,
+    subject: "Confirmacion de compra",
+    html: `Muchas gracias por tu compra!`,
+  };
+  console.log("req.body de /checkout",req.body);
+  Cart.update(
+    {
+      address: req.body.address,
+      cardNumber: req.body.card,
+      cardCvv: req.body.cvv,
+      date: Date.now(),
+      isPaid: true,
+      total: req.body.total,
+    },
+    {
+      where: { UserId: req.body.user.id, isPaid: false },
+      returning: true,
+      plain: true,
+    }
+  )
+    .then((cart) => {
+      return Cart.findByPk(cart[1].id, { include: [{ model: Product }] });
+    })
+    .then((cart) => {
+      let mailOptions = {
+        from: "oscaryemha1990@gmail.com",
+        to: `${req.body.user.email}`,
+        subject: "Confirmacion de compra",
+        html: `<h1>ESTO ES H1 ${cart}</h1>`,
+      };
+    })
+    .then((cart) => {
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email sent: " + info.response);
+        }
+        res.sendStatus(201);
+      });
+    });
+});
 
 module.exports = router

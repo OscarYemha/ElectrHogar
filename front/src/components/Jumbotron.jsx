@@ -3,6 +3,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import {Container} from 'react-bootstrap'
 
 export default () => (
+    <div>
     <Jumbotron fluid style={{backgroundImage:'linear-gradient(to bottom right,black, teal)'}}>
         <Container>
             {/* <h1>Fluid jumbotron</h1>
@@ -13,4 +14,5 @@ export default () => (
             <img src="https://pbs.twimg.com/profile_images/1267921952/logo_foto.png" alt=""/>
         </Container>
     </Jumbotron>
+    </div>
 )

@@ -151,28 +151,8 @@ export default ({allcategories, handleName, handlePrice, handleImg, handleStock,
                 autoComplete="descripcion"
                 value={state.description}
                 onChange={handleDescription}
+                style={{marginBottom:'10px'}}
               />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                id="outlined-select-currency-native"
-                select
-                label="Categoría"
-                fullWidth
-                // onChange={handleChange}
-                SelectProps={{
-                  native: true,
-                }}
-                variant="outlined"
-                >
-               { allcategories && allcategories.length > 0 ?
-                  allcategories.map((c)=>{
-                  <option value={c.name}>
-                    {c.name}
-                  </option>
-                }):null
-              }
-                </TextField>
               </Grid>
           </Grid>
           { allcategories && allcategories.length > 0 ?

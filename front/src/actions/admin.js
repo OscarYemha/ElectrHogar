@@ -15,6 +15,19 @@ const receiveAdminCategories = function(allcategories){
     };
 };
 
+const receiveAllUsers = function(allusers){
+    return{
+        type: "RECEIVE_ALL_USERS",
+        allusers,
+    }
+}
+
+
+export const fetchAllUsers = () => (dispatch) =>
+  axios
+    .get("http://localhost:1000/api/admin/users")
+    .then((res) => res.data)
+    .then((allusers) => dispatch(receiveAllUsers(allusers)));
 
 export const fetchAdminProducts = () => (dispatch) =>
     axios
@@ -28,6 +41,20 @@ export const fetchAdminCategories = () => (dispatch) =>
     .get('http://localhost:1000/api/admin/categories')
     .then((res) => res.data)
     .then((allcategories) => dispatch(receiveAdminCategories(allcategories)));
+
+
+    export const userRol = function (user, rol) {
+        return function () {
+          return axios.put(`http://localhost:1000/api/admin/users/rol`, {user, rol});
+        };
+        };
+
+
+        export const deleteUser = function (user) {
+            return function () {
+              return axios.put("http://localhost:1000/api/admin/users/destroy", {user});
+            };
+            };
 
 
 export const createAdminProduct = function(product, category) {

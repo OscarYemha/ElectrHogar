@@ -11,6 +11,7 @@ class ProductsContainer extends React.Component{
 
     constructor(props){  
         super(props);
+        console.log("props del ProductContainer = ", props)
         this.state = {
           search: '',
         }
@@ -39,46 +40,14 @@ class ProductsContainer extends React.Component{
     }
 
     handleCart(product) {
-      if (!this.props.user.id) {
-        //Si no estoy logueado
-        if (localStorage.length === 0) {
-          //Si no hay producto crea un nuevo elemento en el localstorage
-          let newArrayVirtualCart = [];
-          let newProduct = product;
-          newProduct.CartProductQuantity = { quantity: 1 };
-          newArrayVirtualCart.push(newProduct);
-          localStorage.setItem("cart", JSON.stringify(newArrayVirtualCart));
-        } else {
-          //Si hay productos buscar y sumar, sino agregar uno nuevo
-          let arrayVirtualCart = JSON.parse(localStorage.getItem("cart"));
-          let flag = false;
-          let indice = "";
-          arrayVirtualCart.map((elem, index) => {
-            if (elem.id === product.id) {
-              flag = true;
-              indice = index;
-            }
-          });
-          if (flag === true) {
-            arrayVirtualCart[indice].CartProductQuantity.quantity =
-              arrayVirtualCart[indice].CartProductQuantity.quantity + 1;
-            localStorage.setItem("cart", JSON.stringify(arrayVirtualCart));
-          } else {
-            let newProduct = product;
-            newProduct.CartProductQuantity = { quantity: 1 };
-            let addArrayVirtualCart = JSON.parse(localStorage.getItem("cart"));
-            addArrayVirtualCart.push(newProduct);
-            localStorage.setItem("cart", JSON.stringify(addArrayVirtualCart));
-          }
-        }
-      } else {
+      
         //Si estoy logueado
         console.log("product del ProductsContainer handleCart = ", product);
         this.props.userCart(product, this.props.user).then(() => {
           console.log("this props all cart");
           this.props.allCart(this.props.user.id);
         });
-      }
+      
     }
     
     render(){
@@ -93,9 +62,11 @@ class ProductsContainer extends React.Component{
               {this.props.categoryArray.length>0 ? <Products
             handleCart={this.handleCart}
             productsArray={this.props.categoryArray}
+            user = {this.props.user}
             /> :  <Products
             handleCart={this.handleCart}
             productsArray={filteredProducts.length>0 ? filteredProducts : this.props.products}
+            user = {this.props.user}
             />}
            
             <FooterContainer/>

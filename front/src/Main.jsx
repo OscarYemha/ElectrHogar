@@ -13,15 +13,21 @@ import AdminNewProductContainer from './container/AdminNewProductContainer';
 import AdminEditProductContainer from './container/AdminEditProductContainer';
 import AdminNewCategoryContainer from './container/AdminNewCategoryContainer';
 import AdminCategoriesContainer from './container/AdminCategoriesContainer';
+import AdminUsersContainer from './container/AdminUsersContainer';
 import CategoriesContainer from './container/CategoriesContainer';
 import CartContainer from './container/CartContainer';
 import SearchContainer from './container/SearchContainer';
 import SingleCategoryContainer from './container/SingleCategoryContainer';
-
+import CheckOutContainer from './container/CheckOutContainer'
 
 class Main extends React.Component {
 
+    constructor(props){
+        super(props)
+    }
+
     componentDidMount(){
+        console.log("entrando al DidMount del Main")
         this.props.isLog();
     }
 
@@ -50,10 +56,12 @@ class Main extends React.Component {
                             <Route exact path='/admin/product/:id' component={AdminEditProductContainer}/>
                             <Route exact path='/admin/newcategory' component={AdminNewCategoryContainer}/>
                             <Route exact path='/admin/categories' component={AdminCategoriesContainer}/>
+                            <Route exact path="/admin/users" component={AdminUsersContainer} />
                             <Route exact path='/categories' component={CategoriesContainer}/>
                             <Route path="/cart" component={CartContainer} />
                             <Route path="/search" component={SearchContainer} />
                             <Route exact path='/categories/:id' component={SingleCategoryContainer}/>
+                            <Route path="/checkout" component={CheckOutContainer} />
                             
                         </Switch>
                         

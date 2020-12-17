@@ -101,13 +101,14 @@ console.log("props del component Cart", props);
       </Table>
       <h2>TOTAL: $ {total}</h2>
       <Button
-        className="btn btn-dark"
+         variant="contained"
+         color="primary"
         onClick={() => {
           console.log({ total: total });
           props.handleTotal({ total: total });
         }}
       >
-        <Link to="/checkout">Comprar</Link>
+        <Link to="/checkout" style={{color:'white', textDecoration:'none'}}>Comprar</Link>
       </Button>
     </div>
   );

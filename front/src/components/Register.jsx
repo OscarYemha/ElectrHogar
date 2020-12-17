@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-//import Link from '@material-ui/core/Link';
+import FacebookIcon from '@material-ui/icons/Facebook';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -58,6 +58,17 @@ export default ({handleSubmit, handleFirstname, handleLastname, handleEmail, han
         <Typography component="h1" variant="h5">
           Registrate
         </Typography>
+        <a href="http://localhost:1000/api/auth/facebook">
+        <Button
+          startIcon={<FacebookIcon />}
+          variant="contained"
+          color="primary"
+          type="submit"
+          style={{ marginTop: "20px" }}
+        >
+         Registrate con Facebook
+        </Button>
+      </a>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>

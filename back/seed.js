@@ -397,8 +397,8 @@ Promise.all([notebook4, category4]).then(([nb4, c4]) => {
 
 
 User.create({
-    firstName: "Soy",
-    lastName: "Admin",
+    firstName: "Administrador",
+    lastName: "Administrador",
     email: "soy@admin.com",
     password: "123",
     isAdmin: true,

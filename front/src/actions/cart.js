@@ -14,6 +14,20 @@ const addVirtualCart = function(virtualCart){
     };
 };
 
+const addOrder = function (orders) {
+  return {
+    type: "ADD_ORDERS",
+    orders,
+  };
+};
+
+const misCompras = function (compras) {
+  return {
+    type: "MIS_COMPRAS",
+    compras,
+  };
+};
+
 const totalCart = function(total){
     return {
         type: "TOTAL_CART",
@@ -72,5 +86,11 @@ export const addToVirtualCart = (product) => {
   export const fetchTotal = (tot) => {
     return function (dispatch) {
       return dispatch(totalCart(tot));
+    };
+  };
+
+  export const checkOutInfo = function (isPaid) {
+    return function () {
+      return axios.put("/api/checkout", {isPaid });
     };
   };
