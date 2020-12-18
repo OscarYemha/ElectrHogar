@@ -27,7 +27,7 @@ class CheckOutContainer extends React.Component {
         console.log('handleSubmit del CheckOutContainer, this.props = ', this.props)
         e.preventDefault();
         this.props.checkOutInfo(this.state.address, this.state.card, this.state.cvv,this.props.user, this.props.total)
-        //this.props.history.push('/') EN LA SIDEBAR METER LINK A TODAS LAS ORDERS
+        this.props.history.push('/confirmacion') 
       }
 
     handleAddress(e) {

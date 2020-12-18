@@ -28,18 +28,18 @@ export default ({
           <h3>Ingresá tu información de pago</h3>
           <Form onSubmit={handleSubmit}>
             <Form.Group>
-              <Form.Label>Total:</Form.Label>
+              {/* <Form.Label>Total:</Form.Label>
               <Form.Control
                 type="number"
                 placeholder="Enter Address"
                 onChange={handleAddress}
                 autoFocus
                 value={total}
-              />
+              /> */}
               <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
             <Form.Group>
-              <Form.Label>Address:</Form.Label>
+              <Form.Label>Domicilio:</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter Address"
@@ -50,7 +50,7 @@ export default ({
             </Form.Group>
 
             <Form.Group>
-              <Form.Label>Card Number:</Form.Label>
+              <Form.Label>Tarjeta de crédito Nº:</Form.Label>
               <Form.Control
                 type="number"
                 placeholder="Enter your card number"
@@ -60,7 +60,7 @@ export default ({
             </Form.Group>
 
             <Form.Group controlId="formBasicPassword">
-              <Form.Label>Card cvv:</Form.Label>
+              <Form.Label>CVV Nº:</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Enter CVV"

@@ -18,7 +18,9 @@ import CategoriesContainer from './container/CategoriesContainer';
 import CartContainer from './container/CartContainer';
 import SearchContainer from './container/SearchContainer';
 import SingleCategoryContainer from './container/SingleCategoryContainer';
-import CheckOutContainer from './container/CheckOutContainer'
+import CheckOutContainer from './container/CheckOutContainer';
+import Confirmacion from "./components/ConfirmacionCompra";
+// import OrdersContainer from "./containers/OrdersContainer";
 
 class Main extends React.Component {
 
@@ -62,6 +64,8 @@ class Main extends React.Component {
                             <Route path="/search" component={SearchContainer} />
                             <Route exact path='/categories/:id' component={SingleCategoryContainer}/>
                             <Route path="/checkout" component={CheckOutContainer} />
+                            <Route exact path="/confirmacion" component={Confirmacion} />
+                            {/* <Route exact path="/orders" component={OrdersContainer} /> */}
                             
                         </Switch>
                         

@@ -78,8 +78,13 @@ export const addToVirtualCart = (product) => {
     return dispatch(addCart([]));
   };
 
-  export const clearVirtualCartInStore = () => (dispatch) => {
-    return dispatch(addVirtualCart([]));
+  export const allOrders = (userId) => {
+    return (dispatch) => {
+      return axios.get(`http://localhost:1000/api/orders/${userId}`).then((res) => {
+        console.log("RES.DATA", res.data);
+        dispatch(addOrder(res.data));
+      });
+    };
   };
 
 

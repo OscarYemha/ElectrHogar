@@ -319,25 +319,29 @@ router.get(
   }
 );
 
-var transporter = nodemailer.createTransport({
-  service: "gmail",
-  secure: false,
-  auth: {
-    user: "oscaryemha1990@gmail.com",
-    pass: "electrhogar",
-    // type: 'OAuth2',
-    // clientId: '1089617730119-6f040dri7uf24jv9pnaajqof5c4ubv67.apps.googleusercontent.com',
-    // clientSecret: 'QVIv4FbBiP7WV7_BuDssWDB2',
-  },
-  tls: { rejectUnauthorized: false },
-});
+
 
 router.put("/checkout", (req, res) => {
+
+  var transporter = nodemailer.createTransport({
+    service: "gmail",  
+    port: 587,
+    secure: false,
+    auth: {
+      user: "oscaryemha1990@gmail.com",
+      pass: "OsIY1990",
+      // type: 'OAuth2',
+      // clientId: '622571131623-fieolaq9ecm1tknhtj9c53gv7nne8h5a.apps.googleusercontent.com',
+      // clientSecret: 'AobHBzWtbrLOo756GtX-TI7F',
+    },
+    tls: { rejectUnauthorized: false },
+  });
+
   var mailOptions = {
-    from: "oscaryemha1990@gmail.com",
+    from: "Remitente",
     to: req.body.user.email,
-    subject: "Confirmacion de compra",
-    html: `Muchas gracias por tu compra!`,
+    subject: "Confirmación de compra",
+    text: `Muchas gracias por tu compra!`,
   };
   console.log("req.body de /checkout",req.body);
   Cart.update(
@@ -367,15 +371,42 @@ router.put("/checkout", (req, res) => {
       };
     })
     .then((cart) => {
-      transporter.sendMail(mailOptions, function (error, info) {
+      transporter.sendMail(mailOptions,  (error, info) => {
+        console.log("entre al sendmail")
         if (error) {
-          console.log(error);
+          console.log("error.message",error.message)
+          res.status(500).send(error.message);
         } else {
-          console.log("Email sent: " + info.response);
+          console.log("Email enviado");
+          res.status(200).jsonp(req.body)
         }
-        res.sendStatus(201);
-      });
+      })
     });
+})
+
+router.get("/orders/:userid", (req, res) => {
+  Cart.findAll({
+    where: {
+      UserId: req.params.userid,
+      isPaid: true,
+    },
+  }).then((r) => {
+    //console.log(r)
+    res.send(r);
+  });
+});
+
+router.get("/compras/:cartId", (req, res) => {
+  Cart.findAll({
+    where: {
+      id: req.params.cartId,
+      isPaid: true,
+    },
+    include: [{ model: Product }],
+  }).then((cart) => {
+    console.log("CART THEN", cart);
+    res.send(cart[0]);
+  });
 });
 
 module.exports = router

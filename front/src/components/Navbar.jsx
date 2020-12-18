@@ -3,6 +3,7 @@ import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from "react-boots
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Link} from 'react-router-dom';
+import FindInPageIcon from '@material-ui/icons/FindInPage';
 
 const navStyle = {
   textDecoration: "none",
@@ -73,9 +74,11 @@ export default (props) => {
       
     </Nav>
     <Form inline onSubmit={props.handleSubmit}>
-      <FormControl type="text" placeholder="Buscá tu producto..." className="mr-sm-2" onChange={props.handleChange}
+    <FormControl type="text" placeholder="Buscá tu producto..." className="mr-sm-2" onChange={props.handleChange}
       value={props.busqueda} />
-      
+      <div style={{backgroundColor:'#116767', borderRadius:'2px'}}>
+      <FindInPageIcon fontSize='large' color='action'/>
+      </div>
     </Form>
   </Navbar.Collapse>
 </Navbar>

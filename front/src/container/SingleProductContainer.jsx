@@ -30,6 +30,7 @@ class SingleProductContainer extends React.Component{
         return(
             <div>
                 <SingleProduct
+                user = {this.props.user}
                 singleProduct={this.props.singleProduct}
                 handleCart={this.handleCart}
                 />

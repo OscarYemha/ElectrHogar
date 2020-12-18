@@ -2,6 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Button from '@material-ui/core/Button';
+import Error from './Error'
 
 function Cart(props) {
   let total = 0;
@@ -15,7 +16,9 @@ console.log("props del component Cart", props);
   }
 
   return (
-    <div className="container" style={{ marginTop: "50px", width: "60%" }}>
+    <div>
+      {props.user? <div className="container" style={{ marginTop: "50px", width: "60%" }}>
+      
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -110,7 +113,10 @@ console.log("props del component Cart", props);
       >
         <Link to="/checkout" style={{color:'white', textDecoration:'none'}}>Comprar</Link>
       </Button>
+    </div>:<Error/>}
+
     </div>
+    
   );
 }
 

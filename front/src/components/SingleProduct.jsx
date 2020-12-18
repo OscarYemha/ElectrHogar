@@ -15,9 +15,10 @@ const style = {
     marginRight: "10px",
   };
 
-export default function({singleProduct, handleCart}) {
+export default function({singleProduct, handleCart,user}) {
     console.log('esto es el singleProduct = ',singleProduct)
     return(
+
             <Container>
       <br />
       <Row>
@@ -60,7 +61,16 @@ export default function({singleProduct, handleCart}) {
                    Volver
                 </Button>
               </Link>
-              <Button
+              {user.id? <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      handleCart(singleProduct);
+                    }}
+                  >
+                    Agregar al carrito
+                  </Button>:null}
+              {/* <Button
                 variant="contained"
                 color="primary"
                 onClick={()=>{
@@ -68,7 +78,7 @@ export default function({singleProduct, handleCart}) {
                 }}
               >
                  Agregar al carrito
-              </Button>
+              </Button> */}
             </Card.Body>
           </Card>
           <br />
