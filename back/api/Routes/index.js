@@ -328,8 +328,8 @@ router.put("/checkout", (req, res) => {
     port: 587,
     secure: false,
     auth: {
-      user: "oscaryemha1990@gmail.com",
-      pass: "OsIY1990",
+      user: "your mail",
+      pass: "your password",
       // type: 'OAuth2',
       // clientId: '622571131623-fieolaq9ecm1tknhtj9c53gv7nne8h5a.apps.googleusercontent.com',
       // clientSecret: 'AobHBzWtbrLOo756GtX-TI7F',
@@ -364,7 +364,7 @@ router.put("/checkout", (req, res) => {
     })
     .then((cart) => {
       let mailOptions = {
-        from: "oscaryemha1990@gmail.com",
+        from: "your mail",
         to: `${req.body.user.email}`,
         subject: "Confirmacion de compra",
         html: `<h1>ESTO ES H1 ${cart}</h1>`,
