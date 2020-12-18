@@ -6,13 +6,24 @@ const nodemailer = require('nodemailer');
 
 
 
-// -------- User Register Route -------- //
+// -------- User Register Routes -------- //
 router.post("/register", (req, res) => {
     User.create(req.body).then((users) => {
       console.log("Estás registrado!");
       res.send(users);
     });
 });
+
+router.get("/auth/facebook", 
+  passport.authenticate("facebook", { scope: ["email"] })
+);
+
+router.get("/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  function (req, res) {
+    res.redirect("http://localhost:3000");
+  }
+);
 
 // -------- User Login Route -------- //
 router.post("/login", passport.authenticate("local"), (req, res) => {
@@ -306,18 +317,7 @@ router.put("/cart/destroy", (req, res) => {
     .then(() => res.sendStatus(200));
 });
 
-router.get(
-  "/auth/facebook",
-  passport.authenticate("facebook", { scope: ["email"] })
-);
 
-router.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
-  function (req, res) {
-    res.redirect("http://localhost:3001");
-  }
-);
 
 
 
