@@ -330,9 +330,6 @@ router.put("/checkout", (req, res) => {
     auth: {
       user: "your mail",
       pass: "your password",
-      // type: 'OAuth2',
-      // clientId: '622571131623-fieolaq9ecm1tknhtj9c53gv7nne8h5a.apps.googleusercontent.com',
-      // clientSecret: 'AobHBzWtbrLOo756GtX-TI7F',
     },
     tls: { rejectUnauthorized: false },
   });
