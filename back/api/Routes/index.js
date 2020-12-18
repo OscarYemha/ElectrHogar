@@ -320,7 +320,7 @@ router.put("/cart/destroy", (req, res) => {
 
 
 
-
+// -------- CheckOut Route -------- //
 router.put("/checkout", (req, res) => {
 
   var transporter = nodemailer.createTransport({
