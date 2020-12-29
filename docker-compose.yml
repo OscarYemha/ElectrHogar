@@ -1,0 +1,36 @@
+# # Dudas en todo
+
+# version: "3" #Duda
+# services:
+#   db:
+#     image: postgres:10
+#     environment:
+#       POSTGRES_DB: "electrodomesticos"
+#       POSTGRES_USER: "" #Duda
+#       POSTGRES_PASSWORD: "" #Duda
+#     ports:
+#       - "3000" #Duda
+#   back:
+#     build: ./back #Duda
+#     environment:
+#       port: 1000 #Duda
+#       BASE_URL: "http://localhost" #Duda
+#       DB_NAME: "electrodomesticos"
+#       PSQL_USER: "" #Duda
+#       PSQL_PASS: "" #Duda
+#       DB_HOST: db #Duda
+#     ports:
+#       - "1000:1000" #Duda
+#     volumes:
+#       - ./back/api/Models:/src/Models #Duda
+#       - ./back/api/Routes:/src/Routes #Duda
+#       - ./back/api/db:/src/db #Duda
+#     depends_on:
+#       - db
+#   front:
+#     build: ./front
+#     env_file: ./front/.env #Duda
+#     ports: "3000:3000" #Duda
+#     volumes:
+#       - ./front/public:/main/public #Duda
+#       - ./front/src:/main/src #Duda

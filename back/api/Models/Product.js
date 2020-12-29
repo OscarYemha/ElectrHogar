@@ -15,14 +15,16 @@ Product.init(
             defaultValue: 0,
         },
         imgUrl: {
-            type: S.STRING,
+            type: S.TEXT,
         },
         stock: {
             type: S.INTEGER,
+            allowNull: false,
             defaultValue: 0,
         },
         description: {
-            type: S.TEXT
+            type: S.TEXT,
+            allowNull: false
         }
     },{sequelize: db, modelName: 'Product'}
 );
