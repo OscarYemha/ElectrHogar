@@ -21,7 +21,7 @@ router.get("/auth/facebook",
 router.get("/auth/facebook/callback",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
   function (req, res) {
-    res.redirect("http://localhost:3000");
+    res.redirect("http://localhost:3001");
   }
 );
 
@@ -328,8 +328,8 @@ router.put("/checkout", (req, res) => {
     port: 587,
     secure: false,
     auth: {
-      user: "your mail",
-      pass: "your password",
+      user: "oscaryemha1990@gmail.com",
+      pass: "OsIY1990",
     },
     tls: { rejectUnauthorized: false },
   });
