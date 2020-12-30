@@ -37,7 +37,8 @@ export default ({ productsArray, handleCart, user }) => (
                   <Card.Title>Último disponible</Card.Title>
                   <Card.Text>{p.description.slice(0, 80) + "..."}</Card.Text>
                   {user.id?<Button
-                    color="action"
+                    variant="contained"
+                    color="primary"
                     onClick={() => {
                       handleCart(p);
                     }}
