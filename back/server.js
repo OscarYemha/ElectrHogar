@@ -31,7 +31,7 @@ app.use(express.static("public"));
 
 app.use(
   session({
-    secret: "electroghogar",
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
   })
@@ -68,7 +68,7 @@ passport.use(
   new FacebookStrategy(
     {
       clientID: "410671063704641",
-      clientSecret: "87f37475cab65bc6197ac53e4f377fbe",
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       callbackURL: "http://localhost:1000/api/auth/facebook/callback",
       profileFields: ["email", "name"],
     },
