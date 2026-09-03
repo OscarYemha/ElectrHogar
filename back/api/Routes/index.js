@@ -212,7 +212,7 @@ router.post("/cart", (req, res) => {
           CartProductQuantity.create({
             quantity: 1,
             ProductId: productId,
-            CartId: userId,
+            CartId: newCart.id,
           });
           res.send(newCart);
         });
