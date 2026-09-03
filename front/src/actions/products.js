@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {RECEIVE_PRODUCTS, FETCH_PRODUCTS} from '../constants';
+import API_URL from "../config/api";
 
 
 const receiveProducts = function (products) {
@@ -13,7 +14,7 @@ const receiveProducts = function (products) {
 
 export const fetchProducts = () => (dispatch) =>
     axios
-    .get(`http://localhost:1000/api/products`)
+    .get(`${API_URL}/api/products`)
     .then((res) => res.data)
     .then((products) =>  
         dispatch(receiveProducts(products)));

@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {Link} from 'react-router-dom';
+import API_URL from "../config/api";
+
 
 function Copyright() {
   return (
@@ -58,7 +60,7 @@ export default ({handleSubmit, handleFirstname, handleLastname, handleEmail, han
         <Typography component="h1" variant="h5">
           Registrate
         </Typography>
-        <a href="http://localhost:1000/api/auth/facebook">
+        <a href={`${API_URL}/api/auth/facebook`}>
         <Button
           startIcon={<FacebookIcon />}
           variant="contained"

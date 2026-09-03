@@ -2,8 +2,6 @@ import React from 'react'
 import Register from '../components/Register';
 import {connect} from 'react-redux';
 import {userRegister} from '../actions/users';
-import axios from 'axios'
-
 
 class RegisterContainer extends React.Component{
 
@@ -40,10 +38,6 @@ class RegisterContainer extends React.Component{
         this.setState({password: e.target.value});
     }
 
-    handleFacebookRegister() {
-        axios.get("http://localhost:1000/api/auth/facebook");
-      }
-
     handleSubmit(e){
         e.preventDefault();
 
@@ -54,7 +48,6 @@ class RegisterContainer extends React.Component{
             this.state.password,
         );
         
-        console.log('Estas son las props del RegisterContainer = ',this.props)
         this.props.history.push("/login");
             
             this.setState({
@@ -74,7 +67,6 @@ class RegisterContainer extends React.Component{
             handleEmail={this.handleEmail}
             handlePassword={this.handlePassword}
             handleSubmit={this.handleSubmit}
-            handleFacebookRegister={this.handleFacebookRegister}
             />
         )
     }

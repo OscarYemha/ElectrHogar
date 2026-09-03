@@ -1,10 +1,11 @@
 import axios from 'axios';
-axios.defaults.withCredentials = true;
+import API_URL from "../config/api";
 
+axios.defaults.withCredentials = true;
 
 const userRegister = (firstName, lastName, email, password) => {
     return () => {
-        axios.post("http://localhost:1000/api/register", {
+        axios.post(`${API_URL}/api/register`, {
             firstName,
             lastName,
             email,
@@ -22,7 +23,7 @@ const userLogger = (user) => {
 
 const userLogin = (email, password) => dispatch => {
     return (
-        axios.post("http://localhost:1000/api/login", {
+        axios.post(`${API_URL}/api/login`, {
             email,
             password
         })
@@ -31,12 +32,12 @@ const userLogin = (email, password) => dispatch => {
 
 const userLogout = () => dispatch => {
     return(
-        axios.post("http://localhost:1000/api/logout")
+        axios.post(`${API_URL}/api/logout`)
     ).then(()=> dispatch(userLogger({})));
 }
 
 const isLog = () => dispatch => {
-    return axios.get("http://localhost:1000/api/me")
+    return axios.get(`${API_URL}/api/me`)
     .then((res) => {
         dispatch(userLogger(res.data))
     });

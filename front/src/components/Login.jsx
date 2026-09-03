@@ -13,6 +13,7 @@ import Container from '@material-ui/core/Container';
 import {Link} from 'react-router-dom';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
+import API_URL from "../config/api";
 
 function Copyright() {
   return (
@@ -67,7 +68,7 @@ export default ({handleSubmit, handleEmail, handlePassword}) => {
         <Typography component="h1" variant="h5">
           Ingresá a Mi cuenta
         </Typography>
-        <a href="http://localhost:1000/api/auth/facebook">
+        <a href={`${API_URL}/api/auth/facebook`}>
         <Button
           startIcon={<FacebookIcon />}
           variant="contained"

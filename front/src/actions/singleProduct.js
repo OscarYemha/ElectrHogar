@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {RECEIVE_SINGLE_PRODUCT, RECEIVE_PRODUCTS} from '../constants';
-
+import API_URL from "../config/api";
 
 const receiveProducts = function (products) {
     return {
@@ -23,7 +23,7 @@ export const fetchSingleProduct = (id) => (dispatch) =>
 
     {console.log('Llegó al action')
      return axios
-    .get(`http://localhost:1000/api/singleproduct/${id}`)
+    .get(`${API_URL}/api/singleproduct/${id}`)
     .then((res) => res.data)
     .then((singleProduct) => { console.log("esto es el singleProduct = ", singleProduct)
         dispatch(receiveSingleProduct(singleProduct))});}
@@ -37,7 +37,7 @@ export const clearProductInStore = () => (dispatch) => {
 export const fetchProductsWithCategory = (searchString, category) => (dispatch) => {
     if(searchString && category){
         axios
-        .get(`http://localhost:1000/api/products?${searchString}&category=${category}`)
+        .get(`${API_URL}/api/products?${searchString}&category=${category}`)
         .then((res) => {
             return res.data;
         })
@@ -50,7 +50,7 @@ export const fetchProductsWithCategory = (searchString, category) => (dispatch) 
         });
     }else if(!searchString && category){
         axios
-        .get(`http://localhost:1000/api/products?category=${category}`)
+        .get(`${API_URL}/api/products?category=${category}`)
         .then((res) => {
             return res.data;
         })
