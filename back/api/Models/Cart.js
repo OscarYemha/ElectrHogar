@@ -15,12 +15,6 @@ Cart.init(
     address: {
       type: S.STRING,
     },
-    cardNumber: {
-      type: S.INTEGER,
-    },
-    cardCvv: {
-      type: S.INTEGER,
-    },
     date: {
       type: S.DATE,
     },

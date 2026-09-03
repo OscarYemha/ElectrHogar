@@ -328,8 +328,8 @@ router.put("/checkout", (req, res) => {
     port: 587,
     secure: false,
     auth: {
-      user: "oscaryemha1990@gmail.com",
-      pass: "OsIY1990",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD,
     },
     tls: { rejectUnauthorized: false },
   });
@@ -344,8 +344,6 @@ router.put("/checkout", (req, res) => {
   Cart.update(
     {
       address: req.body.address,
-      cardNumber: req.body.card,
-      cardCvv: req.body.cvv,
       date: Date.now(),
       isPaid: true,
       total: req.body.total,

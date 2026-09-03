@@ -120,7 +120,7 @@ app.use("/*", (req, res) => {
 db.sync({ force: false })
   // Product.sync({}).then(()=>{Category.sync}).then(()=>{User.sync}).then(()=>{Cart.sync}).then(()=>{CartProductQuantity.sync})
   .then(() => {
-    app.listen(1000, () => console.log("listening on 1000..."));
+    app.listen(process.env.PORT || 3001, () => console.log(`listening on ${process.env.PORT || 3001}...`));
   });
 
 module.exports = app;
