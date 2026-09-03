@@ -28,14 +28,6 @@ export default ({
           <h3>Ingresá tu información de pago</h3>
           <Form onSubmit={handleSubmit}>
             <Form.Group>
-              {/* <Form.Label>Total:</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Enter Address"
-                onChange={handleAddress}
-                autoFocus
-                value={total}
-              /> */}
               <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
             <Form.Group>

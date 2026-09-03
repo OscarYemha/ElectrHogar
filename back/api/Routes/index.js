@@ -344,7 +344,7 @@ router.put("/checkout", (req, res) => {
     subject: "Confirmación de compra",
     text: `Muchas gracias por tu compra!`,
   };
-  console.log("req.body de /checkout",req.body);
+  console.log("Procesando checkout para usuario", req.body.user.id);
   Cart.update(
     {
       address: req.body.address,
@@ -358,28 +358,21 @@ router.put("/checkout", (req, res) => {
       plain: true,
     }
   )
-    .then((cart) => {
-      return Cart.findByPk(cart[1].id, { include: [{ model: Product }] });
-    })
-    .then((cart) => {
-      let mailOptions = {
-        from: "your mail",
-        to: `${req.body.user.email}`,
-        subject: "Confirmacion de compra",
-        html: `<h1>ESTO ES H1 ${cart}</h1>`,
-      };
-    })
-    .then((cart) => {
-      transporter.sendMail(mailOptions,  (error, info) => {
-        console.log("entre al sendmail")
+    .then(() => {
+      if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+        console.log("Email no configurado. Se omite el envío.");
+        return res.status(200).json({ message: "Compra realizada con éxito" });
+      }
+
+      transporter.sendMail(mailOptions, (error) => {
         if (error) {
-          console.log("error.message",error.message)
-          res.status(500).send(error.message);
+          console.log("No se pudo enviar el email:", error.message);
         } else {
           console.log("Email enviado");
-          res.status(200).jsonp(req.body)
         }
-      })
+
+        res.status(200).json({ message: "Compra realizada con éxito" });
+      });
     });
 })
 

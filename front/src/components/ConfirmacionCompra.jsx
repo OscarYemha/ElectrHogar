@@ -3,10 +3,11 @@ import React from "react";
 
 function Confirmacion() {
   return (
-      <div style={{textAlign:'center', marginTop:'5%'}}>
-    <img src="https://www.demarco.com.uy/wp-content/uploads/2020/09/TODO-JUNTO-2.gif" alt=""/>
-    </div>
-  );
+  <div style={{ textAlign: "center", marginTop: "5%" }}>
+    <h2>¡Compra realizada con éxito!</h2>
+    <p>Gracias por tu compra.</p>
+  </div>
+);
 }
 
 export default Confirmacion;

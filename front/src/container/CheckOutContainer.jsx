@@ -23,11 +23,17 @@ class CheckOutContainer extends React.Component {
     }
 
     handleSubmit(e) {
-        // console.log('state', this.state)
         console.log('handleSubmit del CheckOutContainer, this.props = ', this.props)
         e.preventDefault();
-        this.props.checkOutInfo(this.state.address, this.state.card, this.state.cvv,this.props.user, this.props.total)
-        this.props.history.push('/confirmacion') 
+        this.props.checkOutInfo(
+            this.state.address,
+            this.state.card,
+            this.state.cvv,
+            this.props.user,
+            this.props.total
+        ).then(() => {
+            this.props.history.push('/confirmacion');
+        }); 
       }
 
     handleAddress(e) {
