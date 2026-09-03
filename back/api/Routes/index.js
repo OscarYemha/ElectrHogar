@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const passport = require('passport');
 const {User, Product, Cart, CartProductQuantity, Category, Category_Product} = require('../Models/index');
+router.get("/", (req, res) => {
+  res.json({ message: "ElectrHogar API" });
+});
+
 const S = require('sequelize');
 const nodemailer = require('nodemailer');
 
