@@ -5,11 +5,11 @@ import { userLogin } from "../actions/users";
 
 class LoginContainer extends React.Component {
   constructor(props) {
-    console.log("props del LoginContainer = ", props);
     super(props);
     this.state = {
       email: "",
       password: "",
+      error: "",
     };
 
     this.handleEmail = this.handleEmail.bind(this);
@@ -27,13 +27,17 @@ class LoginContainer extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log("e del handleSubmit = ", e);
-    console.log("props handleSubmit = ", this.props);
-    
+    this.setState({ error: "" });
+
     this.props.userLogin(this.state.email, this.state.password)
-    .then(()=>{
+      .then(() => {
         this.props.history.push("/");
-    });
+      })
+      .catch(() => {
+        this.setState({
+          error: "Email o contraseña incorrectos.",
+        });
+      });
   }
 
   render() {
@@ -42,6 +46,7 @@ class LoginContainer extends React.Component {
         handleEmail={this.handleEmail}
         handlePassword={this.handlePassword}
         handleSubmit={this.handleSubmit}
+        error={this.state.error}
       />
     );
   }

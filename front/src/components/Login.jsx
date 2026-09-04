@@ -15,6 +15,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Backdrop from '@material-ui/core/Backdrop';
 import API_URL from "../config/api";
 
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -48,9 +49,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({handleSubmit, handleEmail, handlePassword}) => {
+export default ({handleSubmit, handleEmail, handlePassword, error}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  React.useEffect(() => {
+    if (error) {
+      setOpen(false);
+    }
+  }, [error]);
   const handleClose = () => {
     setOpen(false);
   };
@@ -108,6 +114,15 @@ export default ({handleSubmit, handleEmail, handlePassword}) => {
               />
             </Grid>
           </Grid>
+          {error && (
+            <Typography
+              color="error"
+              align="center"
+              style={{ marginTop: "16px" }}
+            >
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             fullWidth
