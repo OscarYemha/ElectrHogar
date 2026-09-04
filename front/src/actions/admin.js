@@ -63,10 +63,13 @@ export const createAdminProduct = function(product, category) {
     };
 };
 
-export const editAdminProduct = function (product) {
+export const editAdminProduct = function (product, category) {
     console.log('editProduct del actionAdmin = ', product)
     return function(){
-        return axios.put(`${API_URL}/api/admin/products/${product.id}`,{product});
+        return axios.put(`${API_URL}/api/admin/products/${product.id}`, {
+            product,
+            category
+        });
     };
 };
 

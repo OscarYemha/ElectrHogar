@@ -76,9 +76,11 @@ class AdminEditProductContainer extends React.Component{
             stock: this.state.stock,
             description: this.state.description,
             id: this.props.singleProduct.id,
-        }).then(()=> this.props.fetchAdminProducts());
-
-        this.props.history.push("/admin/products");
+        }, this.state.category)
+        .then(() => this.props.fetchAdminProducts())
+        .then(() => {
+            this.props.history.push("/admin/products");
+        });
 
         this.setState({
             name: "",

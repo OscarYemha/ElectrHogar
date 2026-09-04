@@ -73,19 +73,21 @@ class AdminNewProductContainer extends React.Component{
             price: this.state.price,
             imgUrl: this.state.imgUrl,
             stock: this.state.stock,
-            description: this.state.description},
-            {category: this.state.category}
-        )
-        
-        this.props.history.push("/admin/products")
+            description: this.state.description
+        }, {
+            category: this.state.category
+        }).then(() => {
+            this.props.history.push("/admin/products");
 
-        this.setState({
-            name: "",
-            stock: "",
-            price: "",
-            imgUrl: "",
-            description: "",
-        })
+            this.setState({
+                name: "",
+                stock: "",
+                price: "",
+                imgUrl: "",
+                description: "",
+                category: [],
+            });
+        });
     }
 
     render(){

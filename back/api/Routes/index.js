@@ -87,9 +87,16 @@ router.get("/me", (req, res) => {
     res.send(req.user);
 });
 
+function requireAdmin(req, res, next) {
+  if (!req.user || !req.user.isAdmin) {
+    return res.sendStatus(403);
+  }
+
+  next();
+}
 
 // -------- Admin Routes -------- //
-router.get("/admin",(req,res) => {
+router.get("/admin", requireAdmin, (req, res) => {
   User.findAll({
     where: {
       isAdmin : [true]
@@ -100,7 +107,7 @@ router.get("/admin",(req,res) => {
   })
 });
 
-router.get("/admin/products", (req,res) => {
+router.get("/admin/products", requireAdmin, (req,res) => {
   Product.findAll({
     include:[{
       model: Category
@@ -110,7 +117,7 @@ router.get("/admin/products", (req,res) => {
   })
 });
 
-router.put('/admin/products/destroy', (req,res) => { // PREGUNTAR SI ES PUT O POST
+router.put('/admin/products/destroy', requireAdmin, (req,res) => {
   Product.destroy({
     where: {
       id: req.body.product.id,
@@ -118,29 +125,35 @@ router.put('/admin/products/destroy', (req,res) => { // PREGUNTAR SI ES PUT O PO
   }).then(() => res.sendStatus(200));
 });
 
-router.post('/admin/newproduct', (req,res) => {
+router.post('/admin/newproduct', requireAdmin, (req,res) => {
   Product.create(req.body.product)
   .then((product) => {
     product.addCategory(req.body.category.category);
   }).then(() => res.sendStatus(201));
 });
 
-router.put('/admin/products/:id', (req,res) => {
-  Product.update(req.body.product,{
+router.put('/admin/products/:id', requireAdmin, (req, res) => {
+  Product.update(req.body.product, {
     where: {
       id: req.params.id,
     },
-  }).then(() => res.sendStatus(200));
+  })
+    .then(() => Product.findByPk(req.params.id))
+    .then((product) => {
+      if (req.body.category) {
+        return product.setCategories(req.body.category);
+      }
+    })
+    .then(() => res.sendStatus(200));
 });
 
-
-router.get('/admin/categories', (req,res) => {
+router.get('/admin/categories', requireAdmin, (req,res) => {
   Category.findAll().then((category) => {
     res.send(category);
   })
 });
 
-router.put('/admin/category/destroy', (req,res) => {
+router.put('/admin/category/destroy', requireAdmin, (req,res) => {
   Category.destroy({
     where: {
       id: req.body.category.id,
@@ -148,14 +161,14 @@ router.put('/admin/category/destroy', (req,res) => {
   }).then(() => res.sendStatus(200)); 
 });
 
-router.post('/admin/newcategory', (req,res) => {
+router.post('/admin/newcategory', requireAdmin, (req,res) => {
   Category.create(req.body.category).then(()=> {
     res.sendStatus(201);
   })
 });
 
 
-router.get("/admin/users", (req, res) => {
+router.get("/admin/users", requireAdmin, (req, res) => {
   User.findAll({}).then((users) => {
       console.log("USERS ADMIN", users)
     res.send(users);
@@ -163,7 +176,7 @@ router.get("/admin/users", (req, res) => {
 });
 
 
-router.put("/admin/users/destroy", (req, res) => {
+router.put("/admin/users/destroy", requireAdmin, (req, res) => {
   User.destroy({
     where: {
       id: req.body.user.id,
@@ -172,7 +185,7 @@ router.put("/admin/users/destroy", (req, res) => {
   .then(() => res.sendStatus(200));
 });  
 
-router.put("/admin/users/rol", (req, res) => {
+router.put("/admin/users/rol", requireAdmin, (req, res) => {
   let newRole;
   if (req.body.rol === false) {
     newRole = true;
