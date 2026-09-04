@@ -21,30 +21,10 @@ class ProductsContainer extends React.Component{
 
     componentDidMount(){
         this.props.fetchProducts();
-
-        console.log("props del componentDidMount del ProductsContainer = ", this.props)
-        // let searchParams = new URLSearchParams(this.props.location.search.slice(1));
-        // console.log("searchParams = ",searchParams);
-        // let sear = searchParams.get("search");
-        // let categ = searchParams.get("category");
-        // if (!sear && !categ) {
-        //     return this.props.fetchProducts();
-        //   } else if (sear && !categ) {
-        //     return this.props.fetchSingleProduct(sear);
-        //   } else if (!sear && categ) {
-        //     return this.props.fetchProductsWithCategory(sear, categ);
-        //   } else if (sear && categ) {
-        //     return this.props.fetchProductsWithCategory(sear, categ);
-        //   }
-        // this.props.fetchProducts();
     }
 
     handleCart(product) {
-      
-        //Si estoy logueado
-        console.log("product del ProductsContainer handleCart = ", product);
         this.props.userCart(product, this.props.user).then(() => {
-          console.log("this props all cart");
           this.props.allCart(this.props.user.id);
         });
       
@@ -53,22 +33,29 @@ class ProductsContainer extends React.Component{
     render(){
       let filteredProducts = this.props.products &&this.props.products.filter(product => 
          product.name.toLowerCase().includes(this.props.productName))
-      // console.log('filteredProducts = ',filteredProducts);
-      console.log("props.categoryArray = ",this.props.categoryArray)
         return(
             <div>
 
               <Jumbotron/>
-              {this.props.categoryArray.length>0 ? <Products
-            handleCart={this.handleCart}
-            productsArray={this.props.categoryArray}
-            user = {this.props.user}
-            /> :  <Products
-            handleCart={this.handleCart}
-            productsArray={filteredProducts.length>0 ? filteredProducts : this.props.products}
-            user = {this.props.user}
-            />}
-           
+              {this.props.categoryName ? (
+                this.props.categoryArray.length > 0 ? (
+                  <Products
+                    handleCart={this.handleCart}
+                    productsArray={this.props.categoryArray}
+                    user={this.props.user}
+                  />
+                ) : (
+                  <p style={{ textAlign: "center", marginTop: "30px" }}>
+                    No hay productos en esta categoría.
+                  </p>
+                )
+              ) : (
+                <Products
+                  handleCart={this.handleCart}
+                  productsArray={filteredProducts.length > 0 ? filteredProducts : this.props.products}
+                  user={this.props.user}
+                />
+              )}
             <FooterContainer/>
             </div>
         )
@@ -77,16 +64,19 @@ class ProductsContainer extends React.Component{
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log("state del ProductsContainer = ",state)
-    console.log("ownProps del ProductsContainer = ",ownProps.match.params.name)
     const categoryName = ownProps.match.params.name;
     return {
       products: state.products.products,
       singleProduct: state.singleProduct.singleProduct,
       user: state.user.user,
       productName: state.products.productName,
-      categoryArray: state.products.products.filter(product => product.Categories[0].name.includes(categoryName))
-        
+      categoryName: categoryName,
+      categoryArray: state.products.products.filter(
+        product =>
+          product.Categories &&
+          product.Categories.length > 0 &&
+          product.Categories[0].name.includes(categoryName)
+      )      
     };
   };
 

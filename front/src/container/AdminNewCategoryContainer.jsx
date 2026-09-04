@@ -31,14 +31,14 @@ class AdminNewCategoryContainer extends React.Component{
         this.props.createAdminCategory({
             name: this.state.name,
             imgUrl: this.state.imgUrl
-        });
+        }).then(() => {
+            this.props.history.push("/admin/categories");
 
-        this.props.history.push("/admin/categories");
-
-        this.setState({
-            name: "",
-            imgUrl: "",
-        })
+            this.setState({
+                name: "",
+                imgUrl: "",
+            });
+    });
     }
 
     render(){
