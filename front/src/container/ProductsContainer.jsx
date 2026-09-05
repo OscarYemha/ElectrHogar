@@ -11,7 +11,6 @@ class ProductsContainer extends React.Component{
 
     constructor(props){  
         super(props);
-        console.log("props del ProductContainer = ", props)
         this.state = {
           search: '',
         }

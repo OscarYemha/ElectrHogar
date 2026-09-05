@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default ({allcategories, handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit, handleCategory, state, user}) => {
-  console.log("state del EditProduct Component = ", state)
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {

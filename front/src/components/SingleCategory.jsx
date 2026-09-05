@@ -22,7 +22,6 @@ export default function({productsArray}) {
     <Row>
       {productsArray && productsArray.length > 0 ? (
         productsArray.map((p) => {
-          console.log('productsArray del productsContainer = ',productsArray)
           return (
             <Col md={3}>
               <Card style={{ width: "19rem", height:'31rem', marginBottom:'5%'}}>

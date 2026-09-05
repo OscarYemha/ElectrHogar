@@ -8,7 +8,6 @@ import Categories from '../components/Categories';
 class SingleCategoryContainer extends React.Component{
     constructor(props){
         super(props);
-        console.log('props del singleCategoryContainer', this.props.products[0].Categories)
     }
 
     componentDidMount(){
@@ -18,7 +17,6 @@ class SingleCategoryContainer extends React.Component{
     render(){
         // let filteredProducts = this.props.products &&this.props.products.filter((category) => 
         //     category.includes(this.props.products))
-        //  console.log('filteredProductsCategoryContainer = ',filteredProducts);
         return(
             <div>
                 <SingleCategory
@@ -31,7 +29,6 @@ class SingleCategoryContainer extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    console.log('state del singleCategoryContainer',state)
     return {
       products: state.products.products,
       user: state.user.user

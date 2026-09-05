@@ -30,11 +30,10 @@ export const fetchAllUsers = () => (dispatch) =>
     .then((allusers) => dispatch(receiveAllUsers(allusers)));
 
 export const fetchAdminProducts = () => (dispatch) =>
-    axios
+  axios
     .get(`${API_URL}/api/admin/products`)
     .then((res) => res.data)
-    .then((allproducts) => {console.log("esto es el fetchAdminProducts = ", allproducts) 
-    dispatch(receiveAdminProducts(allproducts))});
+    .then((allproducts) => dispatch(receiveAdminProducts(allproducts)));
 
 export const fetchAdminCategories = () => (dispatch) =>
     axios
@@ -64,7 +63,6 @@ export const createAdminProduct = function(product, category) {
 };
 
 export const editAdminProduct = function (product, category) {
-    console.log('editProduct del actionAdmin = ', product)
     return function(){
         return axios.put(`${API_URL}/api/admin/products/${product.id}`, {
             product,

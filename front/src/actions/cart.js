@@ -38,17 +38,14 @@ const totalCart = function(total){
 
 
 export const userCart = function(product, user){
-    console.log("userCart del action = ", user)
     return function(){
         return axios.post(`${API_URL}/api/cart`, {product, user});
     };
 };
 
 export const allCart = (userId) => {
-    console.log('allCart Action = ', userId);
     return (dispatch) => {
         return axios.get(`${API_URL}/api/cart/${userId}`).then((res) => {
-            console.log('res.data cartAction = ',res.data)
             dispatch(addCart(res.data.Products))
         })
     }
@@ -82,7 +79,6 @@ export const addToVirtualCart = (product) => {
   export const allOrders = (userId) => {
     return (dispatch) => {
       return axios.get(`${API_URL}/api/orders/${userId}`).then((res) => {
-        console.log("RES.DATA", res.data);
         dispatch(addOrder(res.data));
       });
     };

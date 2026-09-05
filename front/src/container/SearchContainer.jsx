@@ -14,12 +14,10 @@ class SearchContainer extends React.Component{
         componentDidMount(){
             this.props.fetchProducts();
     
-            console.log("props del componentDidMount del SearchContainer = ", this.props)
         }   
     render(){
         let filteredProducts = this.props.products &&this.props.products.filter(product => 
             product.name.toLowerCase().includes(this.props.productName))
-         console.log('filteredProducts = ',filteredProducts);
          return(
             <div>
             <Search
@@ -33,7 +31,6 @@ class SearchContainer extends React.Component{
 
 }
 const mapStateToProps = (state) => {
-    console.log("state del SearchContainer = ",state)
     return {
       products: state.products.products,
       singleProduct: state.singleProduct.singleProduct,

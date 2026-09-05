@@ -13,7 +13,6 @@ const nodemailer = require('nodemailer');
 // -------- User Register Routes -------- //
 router.post("/register", (req, res) => {
     User.create(req.body).then((users) => {
-      console.log("Estás registrado!");
       res.send(users);
     });
 });
@@ -22,23 +21,24 @@ router.get("/auth/facebook",
   passport.authenticate("facebook", { scope: ["email"] })
 );
 
-router.get("/auth/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", {
+    failureRedirect: `${process.env.FRONTEND_URL}/login`,
+  }),
   function (req, res) {
-    res.redirect("http://localhost:3001");
+    res.redirect(`${process.env.FRONTEND_URL}/products`);
   }
 );
 
 // -------- User Login Route -------- //
 router.post("/login", passport.authenticate("local"), (req, res) => {
-    console.log("Estás logueado!");
     res.send(req.user);
 });
 
 // -------- User LogOut Route -------- //
 router.post("/logout", (req, res) => {
     if(req.isAuthenticated()){
-      console.log("Te deslogueaste!");
       req.logOut();
     }  
     res.sendStatus(200);
@@ -58,7 +58,6 @@ router.get('/products', (req,res) => {
 
 router.get('/singleproduct/:id', (req,res) => {
   Product.findByPk(req.params.id).then((singleproduct) => {
-    console.log('singleProduct desde el back',singleproduct)
     res.send(singleproduct);
   })
 });
@@ -102,7 +101,6 @@ router.get("/admin", requireAdmin, (req, res) => {
       isAdmin : [true]
     }
   }).then((users) => {
-    console.log('Users admin = ', users)
     res.send(users)
   })
 });
@@ -191,7 +189,6 @@ router.post('/admin/newcategory', requireAdmin, (req,res) => {
 
 router.get("/admin/users", requireAdmin, (req, res) => {
   User.findAll({}).then((users) => {
-      console.log("USERS ADMIN", users)
     res.send(users);
   });
 });
@@ -283,7 +280,7 @@ router.post("/cart", (req, res) => {
         });
       }
     })
-    .catch((error) => console.log(error));
+    .catch((error) => console.error(error));
 });
 
 router.put("/cart", (req, res) => {
@@ -319,7 +316,6 @@ router.get("/cart/:userId", (req, res) => {
 
 //Modificar cantidad (mandar user object, product object y {cant: 1} (ó -1 dependiendo el caso))
 router.put("/cart/cant", (req, res) => {
-  console.log("req body", req.body);
   Cart.findAll({
     where: {
       UserId: req.body.user.id,
@@ -389,7 +385,6 @@ router.put("/checkout", (req, res) => {
     subject: "Confirmación de compra",
     text: `Muchas gracias por tu compra!`,
   };
-  console.log("Procesando checkout para usuario", req.body.user.id);
   Cart.update(
     {
       address: req.body.address,
@@ -428,7 +423,6 @@ router.get("/orders/:userid", (req, res) => {
       isPaid: true,
     },
   }).then((r) => {
-    //console.log(r)
     res.send(r);
   });
 });
@@ -441,7 +435,6 @@ router.get("/compras/:cartId", (req, res) => {
     },
     include: [{ model: Product }],
   }).then((cart) => {
-    console.log("CART THEN", cart);
     res.send(cart[0]);
   });
 });

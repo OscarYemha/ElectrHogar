@@ -16,7 +16,6 @@ const style = {
   };
 
 export default function({singleProduct, handleCart,user}) {
-    console.log('esto es el singleProduct = ',singleProduct)
     return(
 
             <Container>

@@ -6,7 +6,6 @@ import Error from './Error'
 
 function Cart(props) {
   let total = 0;
-console.log("props del component Cart", props);
   let cartRender = [];
 
   if (props.cart.length > 0) {
@@ -107,7 +106,6 @@ console.log("props del component Cart", props);
          variant="contained"
          color="primary"
         onClick={() => {
-          console.log({ total: total });
           props.handleTotal({ total: total });
         }}
       >

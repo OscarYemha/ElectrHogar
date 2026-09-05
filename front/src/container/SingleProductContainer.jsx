@@ -7,18 +7,15 @@ import {userCart, allCart, addToVirtualCart} from '../actions/cart'
 class SingleProductContainer extends React.Component{
     constructor(props){
         super(props);
-        console.log('props del singleProductContainer', this.props)
 
         this.handleCart = this.handleCart.bind(this);
     }
 
     componentDidMount(){
-        console.log('componentDIdMount del singleProductContainer')
         this.props.fetchSingleProduct(this.props.match.params.id);
     }
 
     handleCart(product) {
-        console.log("product SingleProductContainer handleCart = ", product)
         this.props.userCart(this.props.singleProduct, this.props.user)
         .then(() => {
           this.props.allCart(this.props.user.id);
@@ -26,7 +23,6 @@ class SingleProductContainer extends React.Component{
       }
 
     render(){
-        console.log('Esto es props.singleProduct = ',this.props.singleProduct)
         return(
             <div>
                 <SingleProduct
@@ -41,7 +37,6 @@ class SingleProductContainer extends React.Component{
 
 
 const mapStateToProps = (state) => {
-    console.log('state del singleProductContainer',state)
     return {
       singleProduct: state.singleProduct.singleProduct,
       user: state.user.user,

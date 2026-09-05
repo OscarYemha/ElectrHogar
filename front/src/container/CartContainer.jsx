@@ -15,11 +15,9 @@ class CartContainer extends React.Component {
 
     componentDidMount(){
         if (!this.props.user.id) {
-            console.log("cartCont no user");
             let virtualCartVariable = JSON.parse(localStorage.getItem("cart"));
             return this.props.addToVirtualCart(virtualCartVariable);
           } else {
-            console.log("cartCont user");
             return this.props.allCart(this.props.user.id);
           }
     }
@@ -66,7 +64,6 @@ class CartContainer extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    console.log("state del CartContainer = ",state)
     if(!state.cart.cart) {
         return {
             cart: [],

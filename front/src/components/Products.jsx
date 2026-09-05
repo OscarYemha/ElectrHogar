@@ -12,8 +12,6 @@ export default ({ productsArray, handleCart, user }) => (
       
       {productsArray && productsArray.length > 0 ? (
         productsArray.map((p) => {
-          console.log('productsArray del productsContainer = ',productsArray)
-          console.log("user Products", user)
           return (
             
             <Col md={3}>

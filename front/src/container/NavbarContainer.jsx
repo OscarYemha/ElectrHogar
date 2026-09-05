@@ -9,7 +9,6 @@ import {setSearchInStore} from '../actions/search';
 class NavbarContainer extends React.Component{
     constructor(props){
         super(props);
-      console.log("props de la NavbarContainer = ", props)
       this.state = {
         search : "",
       }
@@ -20,8 +19,6 @@ class NavbarContainer extends React.Component{
     }
 
     handleLogout(e){
-      console.log('e del handlelogout = ', e)
-      console.log('props del handlelogout = ', this.props)
       this.props.userLogout()
     }
 
@@ -31,9 +28,6 @@ class NavbarContainer extends React.Component{
     }
 
     handleSubmit(e){
-      console.log("e del handleSubmit del NavbarContainer = ", e)
-      console.log("state del handleSubmit del NavbarContainer =", this.state)
-      console.log("props del handleSubmit del NavbarContainer =", this.props)
       e.preventDefault();
       this.props.fetchProductsName(this.state.search);
       this.props.setSearchInStore(this.state.search);
@@ -42,7 +36,6 @@ class NavbarContainer extends React.Component{
     }
 
     componentDidMount(){
-      console.log('entre al did mount deel navbarcontainer')
       this.props.fetchProducts();
     }
 

@@ -23,7 +23,6 @@ class OrdersContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log('USER', state.user)
     return {
         user: state.user.user,
         orders: state.cart.orders

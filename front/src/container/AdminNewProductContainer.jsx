@@ -109,7 +109,6 @@ class AdminNewProductContainer extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-    console.log('state del NewProductContainer = ', state)
     return{
         allcategories: state.admin.allcategories,
         user: state.user.user,

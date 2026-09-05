@@ -55,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default ({allcategories, handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit, handleCategory, user}) => {
-  console.log("allcategories del newProduct component = ", allcategories)
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleClose = () => {

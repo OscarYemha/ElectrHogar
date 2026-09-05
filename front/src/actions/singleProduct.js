@@ -17,16 +17,13 @@ const receiveSingleProduct = function (singleProduct) {
 };
 
 
-
-
 export const fetchSingleProduct = (id) => (dispatch) =>
-
-    {console.log('Llegó al action')
-     return axios
+  axios
     .get(`${API_URL}/api/singleproduct/${id}`)
     .then((res) => res.data)
-    .then((singleProduct) => { console.log("esto es el singleProduct = ", singleProduct)
-        dispatch(receiveSingleProduct(singleProduct))});}
+    .then((singleProduct) =>
+      dispatch(receiveSingleProduct(singleProduct))
+    );
 
 
 export const clearProductInStore = () => (dispatch) => {

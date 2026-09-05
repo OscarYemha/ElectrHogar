@@ -6,7 +6,6 @@ import {editAdminProduct, fetchAdminProducts, fetchAdminCategories} from '../act
 
 class AdminEditProductContainer extends React.Component{
     constructor(props){
-        console.log("props del EditProductContainer = ",props)
         super(props);
 
         this.state = {
@@ -114,7 +113,6 @@ class AdminEditProductContainer extends React.Component{
 
 
 const mapStateToProps = (state) => {
-    console.log("state del EditProductContainer = ", state)
     return{
         singleProduct: state.singleProduct.singleProduct,
         allcategories : state.admin.allcategories,

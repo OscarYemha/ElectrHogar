@@ -30,7 +30,6 @@ class CategoriesContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("state del CategoriesContainer = ",state)
     return{
         categories: state.categories.categories,
     }

@@ -63,7 +63,6 @@ export default ({
             <Form.Group controlId="formBasicCheckbox"></Form.Group>
             <Button
               onClick={() => {
-                // location.href = "http://localhost:3001/confirmacion";
               }}
               color="primary"
               type="submit"

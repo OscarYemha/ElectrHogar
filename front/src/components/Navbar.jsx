@@ -25,7 +25,6 @@ const navStyle2 = {
 
 
 export default (props) => {
-  console.log('props del component navbar = ', props)
   return (
     <div>
 <Navbar bg="dark" variant='dark' expand="lg" >

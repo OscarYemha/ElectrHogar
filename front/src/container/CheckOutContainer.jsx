@@ -7,7 +7,6 @@ import {checkOutInfo} from '../actions/checkOut'
 class CheckOutContainer extends React.Component {
     constructor(props) {
         super(props)
-        console.log("props del CheckOutContainer = ", props)
         this.state = {
             address: "",
             card: "",
@@ -23,7 +22,6 @@ class CheckOutContainer extends React.Component {
     }
 
     handleSubmit(e) {
-        console.log('handleSubmit del CheckOutContainer, this.props = ', this.props)
         e.preventDefault();
         this.props.checkOutInfo(
             this.state.address,
@@ -66,7 +64,6 @@ class CheckOutContainer extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("state del mapStateToProps del CheckOutContainer = ", state);
     return {
       user: state.user.user,
       total: state.cart.totalCart
