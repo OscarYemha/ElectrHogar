@@ -118,6 +118,10 @@ router.get("/admin/products", requireAdmin, (req,res) => {
 });
 
 router.put("/admin/users/destroy", requireAdmin, (req, res) => {
+  if (!req.body.user || !req.body.user.id) {
+    return res.sendStatus(400);
+  }
+
   User.findByPk(req.body.user.id)
     .then((user) => {
       if (!user) {
@@ -125,7 +129,9 @@ router.put("/admin/users/destroy", requireAdmin, (req, res) => {
       }
 
       if (user.isAdmin === true) {
-        return res.status(403).send("No se puede eliminar a un administrador");
+        return res
+          .status(403)
+          .send("No se puede eliminar a un administrador");
       }
 
       return User.destroy({
@@ -133,6 +139,10 @@ router.put("/admin/users/destroy", requireAdmin, (req, res) => {
           id: user.id,
         },
       }).then(() => res.sendStatus(200));
+    })
+    .catch((error) => {
+      console.error("Error al eliminar usuario:", error);
+      res.sendStatus(500);
     });
 });
 
@@ -187,16 +197,11 @@ router.get("/admin/users", requireAdmin, (req, res) => {
 });
 
 
-router.put("/admin/users/destroy", requireAdmin, (req, res) => {
-  User.destroy({
-    where: {
-      id: req.body.user.id,
-    },
-  })
-  .then(() => res.sendStatus(200));
-});  
-
 router.put("/admin/users/rol", requireAdmin, (req, res) => {
+  if (!req.body.user || !req.body.user.id) {
+    return res.sendStatus(400);
+  }
+
   User.findByPk(req.body.user.id)
     .then((user) => {
       if (!user) {
@@ -204,7 +209,9 @@ router.put("/admin/users/rol", requireAdmin, (req, res) => {
       }
 
       if (user.isAdmin === true) {
-        return res.status(403).send("El usuario ya es administrador");
+        return res
+          .status(403)
+          .send("El usuario ya es administrador");
       }
 
       return User.update(
@@ -217,6 +224,10 @@ router.put("/admin/users/rol", requireAdmin, (req, res) => {
           },
         }
       ).then(() => res.sendStatus(200));
+    })
+    .catch((error) => {
+      console.error("Error al promover usuario:", error);
+      res.sendStatus(500);
     });
 });
 

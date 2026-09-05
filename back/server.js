@@ -18,9 +18,9 @@ const app = express();
 app.use(helmet());
 app.use(
   cors({
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-    origin: true,
+    origin: process.env.FRONTEND_URL,
   }),
 );
 app.use(morgan("tiny"));
@@ -33,8 +33,8 @@ app.use(express.static("public"));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
   })
 );
 
@@ -74,8 +74,6 @@ passport.use(
       profileFields: ["email", "name"],
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log("profile = ", profile);
-
       User.findOne({
         where: {
           email: profile.emails[0].value,
@@ -99,12 +97,10 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  console.log("Entro al serialize", user.id)
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  // console.log("Entro al deserialize", user.id)
   User.findByPk(id)
     .then((user) => {
       done(null, user);
@@ -113,12 +109,13 @@ passport.deserializeUser((id, done) => {
 });
 
 app.use("/api", routes);
-app.use("/*", (req, res) => {
-  res.redirect("/api");
+app.use((req, res) => {
+  res.status(404).json({
+    error: "Ruta no encontrada",
+  });
 });
 
 db.sync({ force: false })
-  // Product.sync({}).then(()=>{Category.sync}).then(()=>{User.sync}).then(()=>{Cart.sync}).then(()=>{CartProductQuantity.sync})
   .then(() => {
     app.listen(process.env.PORT || 3001, () => console.log(`listening on ${process.env.PORT || 3001}...`));
   });
