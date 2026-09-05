@@ -117,12 +117,23 @@ router.get("/admin/products", requireAdmin, (req,res) => {
   })
 });
 
-router.put('/admin/products/destroy', requireAdmin, (req,res) => {
-  Product.destroy({
-    where: {
-      id: req.body.product.id,
-    },
-  }).then(() => res.sendStatus(200));
+router.put("/admin/users/destroy", requireAdmin, (req, res) => {
+  User.findByPk(req.body.user.id)
+    .then((user) => {
+      if (!user) {
+        return res.sendStatus(404);
+      }
+
+      if (user.isAdmin === true) {
+        return res.status(403).send("No se puede eliminar a un administrador");
+      }
+
+      return User.destroy({
+        where: {
+          id: user.id,
+        },
+      }).then(() => res.sendStatus(200));
+    });
 });
 
 router.post('/admin/newproduct', requireAdmin, (req,res) => {
@@ -186,18 +197,28 @@ router.put("/admin/users/destroy", requireAdmin, (req, res) => {
 });  
 
 router.put("/admin/users/rol", requireAdmin, (req, res) => {
-  let newRole;
-  if (req.body.rol === false) {
-    newRole = true;
-  }
-  User.update({isAdmin: newRole},{
-    where: {
-      id: req.body.user.id,
-    },
-  })
-  .then(() => res.sendStatus(200));
-}); 
+  User.findByPk(req.body.user.id)
+    .then((user) => {
+      if (!user) {
+        return res.sendStatus(404);
+      }
 
+      if (user.isAdmin === true) {
+        return res.status(403).send("El usuario ya es administrador");
+      }
+
+      return User.update(
+        {
+          isAdmin: true,
+        },
+        {
+          where: {
+            id: user.id,
+          },
+        }
+      ).then(() => res.sendStatus(200));
+    });
+});
 
 // -------- Cart Routes -------- //
 router.post("/cart", (req, res) => {

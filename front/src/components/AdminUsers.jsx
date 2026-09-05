@@ -33,19 +33,29 @@ function AdminUsers({user, allUsers, handleDelete, handleRoles}) {
                     <td>{e.firstName}</td>
                     <td>{e.lastName}</td>
                     <td> {e.email}</td>
-                    {e.isAdmin!==true ? <td><Button onClick = {()=>{handleRoles(e, e.isAdmin)}} >Promover a Administrador</Button></td>: <td><Button disabled>Este usuario es Administrador</Button></td>}
-                    {/* <td><Button onClick = {()=>{handleRoles(e, e.isAdmin)}} >Promover a Admin</Button></td> */}
-                   
-                    <td><Button onClick = {()=>{handleDelete(e)}}>Eliminar Usuario</Button></td>
+                    {e.isAdmin!==true ? <td><Button onClick = {()=>{handleRoles(e, e.isAdmin)}} >Promover a Administrador</Button></td>: <td><Button disabled>Este usuario es Administrador</Button></td>}                  
+                    {e.isAdmin !== true
+                      ? (
+                          <td>
+                            <Button onClick={() => {handleDelete(e)}}>
+                              Eliminar Usuario
+                            </Button>
+                          </td>
+                        )
+                      : (
+                          <td>
+                            <Button disabled>
+                              No se puede eliminar
+                            </Button>
+                          </td>
+                        )
+                    }
                   </tr>
                 </tbody>
               );
             })
           : null}
       </Table>
-      {/* <Button className="btn btn-dark">
-        <Link to="/allproducts">Ir a Home</Link>
-      </Button> */}
     </div>
   )
   :
