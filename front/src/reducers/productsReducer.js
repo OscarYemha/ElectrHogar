@@ -6,7 +6,6 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-    console.log("este es el action.products = ",action.products)
     switch(action.type){
         case RECEIVE_PRODUCTS:
             return Object.assign({}, state, {products: action.products});
