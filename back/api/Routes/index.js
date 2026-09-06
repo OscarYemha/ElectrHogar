@@ -1,19 +1,42 @@
 const router = require('express').Router();
 const passport = require('passport');
-const {User, Product, Cart, CartProductQuantity, Category, Category_Product} = require('../Models/index');
+const { User, Product, Cart, CartProductQuantity, Category } = require('../Models/index');
 router.get("/", (req, res) => {
   res.json({ message: "ElectrHogar API" });
 });
 
-const S = require('sequelize');
 const nodemailer = require('nodemailer');
 
+const sanitizeUser = (user) => {
+  if (!user) {
+    return {};
+  }
 
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+    isAdmin: user.isAdmin,
+  };
+};
 
 // -------- User Register Routes -------- //
 router.post("/register", (req, res) => {
-    User.create(req.body).then((users) => {
-      res.send(users);
+  const { firstName, lastName, email, password } = req.body;
+
+  User.create({
+    firstName,
+    lastName,
+    email,
+    password,
+  })
+    .then((user) => {
+      res.status(201).json(sanitizeUser(user));
+    })
+    .catch((error) => {
+      console.error("Error al registrar usuario:", error.message);
+      res.sendStatus(400);
     });
 });
 
@@ -33,7 +56,7 @@ router.get(
 
 // -------- User Login Route -------- //
 router.post("/login", passport.authenticate("local"), (req, res) => {
-    res.send(req.user);
+  res.json(sanitizeUser(req.user));
 });
 
 // -------- User LogOut Route -------- //
@@ -76,14 +99,8 @@ router.get('/categories', (req,res) => {
 
 
 // -------- User Routes -------- //
-router.get("/users", (req, res) => {
-  User.findAll().then((users) => {
-    res.send(users);
-  });
-});
-
 router.get("/me", (req, res) => {
-    res.send(req.user);
+  res.json(sanitizeUser(req.user));
 });
 
 function requireAdmin(req, res, next) {
@@ -188,9 +205,22 @@ router.post('/admin/newcategory', requireAdmin, (req,res) => {
 
 
 router.get("/admin/users", requireAdmin, (req, res) => {
-  User.findAll({}).then((users) => {
-    res.send(users);
-  });
+  User.findAll({
+    attributes: [
+      "id",
+      "firstName",
+      "lastName",
+      "email",
+      "isAdmin",
+    ],
+  })
+    .then((users) => {
+      res.json(users);
+    })
+    .catch((error) => {
+      console.error("Error al obtener usuarios:", error);
+      res.sendStatus(500);
+    });
 });
 
 
