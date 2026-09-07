@@ -611,6 +611,17 @@ router.put("/cart/destroy", requireAuth, async (req, res) => {
 // -------- CheckOut Route -------- //
 router.put("/checkout", requireAuth, async (req, res) => {
   try {
+    const address =
+      typeof req.body.address === "string"
+        ? req.body.address.trim()
+        : "";
+
+    if (!address || address.length > 200) {
+      return res.status(400).json({
+        error: "Ingresá una dirección válida",
+      });
+    }
+
     const cart = await Cart.findOne({
       where: {
         UserId: req.user.id,
@@ -630,8 +641,41 @@ router.put("/checkout", requireAuth, async (req, res) => {
       return sum + product.price * quantity;
     }, 0);
 
+    const orderItems = cart.Products.map((product) => {
+      const quantity = product.CartProductQuantity.quantity;
+      const subtotal = product.price * quantity;
+
+      return {
+        name: product.name,
+        price: product.price,
+        quantity,
+        subtotal,
+      };
+    });
+
+    const orderRows = orderItems
+      .map(
+        (item) => `
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #ddd;">
+              ${escapeHtml(item.name)}
+            </td>
+            <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: center;">
+              ${item.quantity}
+            </td>
+            <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">
+              $${item.price.toLocaleString("es-AR")}
+            </td>
+            <td style="padding: 10px; border-bottom: 1px solid #ddd; text-align: right;">
+              $${item.subtotal.toLocaleString("es-AR")}
+            </td>
+          </tr>
+        `
+      )
+      .join("");
+
     await cart.update({
-      address: req.body.address,
+      address: address,
       date: new Date(),
       isPaid: true,
       total,
@@ -656,11 +700,103 @@ router.put("/checkout", requireAuth, async (req, res) => {
       },
     });
 
+    const purchaseDate = new Date().toLocaleString("es-AR", {
+      timeZone: "America/Argentina/Buenos_Aires",
+      hour12: false,
+    });
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: req.user.email,
-      subject: "Confirmación de compra",
-      text: "Muchas gracias por tu compra!",
+      subject: "Confirmación de compra - ElectrHogar",
+
+      html: `
+        <div
+          style="
+            max-width: 700px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+            color: #333;
+          "
+        >
+          <h2 style="text-align: center;">
+            ElectrHogar
+          </h2>
+
+          <h3>
+            ¡Compra realizada con éxito!
+          </h3>
+
+          <p>
+            Hola ${escapeHtml(req.user.firstName || "")},
+          </p>
+
+          <p>
+            Tu pedido fue registrado correctamente.
+            A continuación podés ver el detalle de la compra.
+          </p>
+
+          <p>
+            <strong>Fecha:</strong> ${purchaseDate}
+          </p>
+
+          <p>
+            <strong>Dirección de entrega:</strong>
+            ${escapeHtml(address)}
+          </p>
+
+          <table
+            style="
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 20px;
+            "
+          >
+            <thead>
+              <tr style="background-color: #f2f2f2;">
+                <th style="padding: 10px; text-align: left;">
+                  Producto
+                </th>
+                <th style="padding: 10px; text-align: center;">
+                  Cantidad
+                </th>
+                <th style="padding: 10px; text-align: right;">
+                  Precio
+                </th>
+                <th style="padding: 10px; text-align: right;">
+                  Subtotal
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              ${orderRows}
+            </tbody>
+          </table>
+
+          <h3 style="text-align: right; margin-top: 20px;">
+            Total: $${total.toLocaleString("es-AR")}
+          </h3>
+
+          <p style="margin-top: 30px;">
+            Muchas gracias por tu compra.
+          </p>
+
+          <hr style="margin-top: 30px;" />
+
+          <p
+            style="
+              font-size: 12px;
+              color: #777;
+              text-align: center;
+            "
+          >
+            Esta es una compra ficticia realizada en ElectrHogar,
+            un proyecto de demostración.
+            No se realizó ningún cobro real.
+          </p>
+        </div>
+      `,
     };
 
     transporter.sendMail(mailOptions, (error) => {
@@ -683,6 +819,15 @@ router.put("/checkout", requireAuth, async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+const escapeHtml = (value) => {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+};
 
 router.get("/orders", requireAuth, async (req, res) => {
   try {

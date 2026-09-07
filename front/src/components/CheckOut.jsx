@@ -37,6 +37,7 @@ export default ({
                 placeholder="Enter Address"
                 onChange={handleAddress}
                 autoFocus
+                required
               />
               <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
@@ -47,6 +48,7 @@ export default ({
                 type="number"
                 placeholder="Enter your card number"
                 onChange={handleCard}
+                required
               />
               <Form.Text className="text-muted"></Form.Text>
             </Form.Group>
@@ -57,6 +59,7 @@ export default ({
                 type="password"
                 placeholder="Enter CVV"
                 onChange={handleCvv}
+                required
               />
             </Form.Group>
 
