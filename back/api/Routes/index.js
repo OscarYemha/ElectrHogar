@@ -267,62 +267,60 @@ router.put("/admin/users/rol", requireAdmin, (req, res) => {
 });
 
 // -------- Cart Routes -------- //
-router.post("/cart", requireAuth, (req, res) => {
-  if (!req.body.product || !req.body.product.id) {
-  return res.sendStatus(400);
+router.post("/cart", requireAuth, async (req, res) => {
+  try {
+    if (!req.body.product || !req.body.product.id) {
+      return res.sendStatus(400);
+    }
+
+    const productId = req.body.product.id;
+
+    const product = await Product.findByPk(productId);
+
+    if (!product) {
+      return res.sendStatus(404);
+    }
+
+    let cart = await Cart.findOne({
+      where: {
+        UserId: req.user.id,
+        isPaid: false,
+      },
+    });
+
+    if (!cart) {
+      cart = await Cart.create({
+        UserId: req.user.id,
+      });
+    }
+
+    const cartQuant = await CartProductQuantity.findOne({
+      where: {
+        CartId: cart.id,
+        ProductId: productId,
+      },
+    });
+
+    if (!cartQuant) {
+      await CartProductQuantity.create({
+        quantity: 1,
+        ProductId: productId,
+        CartId: cart.id,
+      });
+    } else {
+      await cartQuant.increment("quantity", {
+        by: 1,
+      });
+    }
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(
+      "Error al agregar producto al carrito:",
+      error
+    );
+    res.sendStatus(500);
   }
-
-  const productId = req.body.product.id;
-  const userId = req.user.id;
-
-  let cant = 1;
-  if (req.body.product.CartProductQuantity) {
-    cant = req.body.product.CartProductQuantity.quantity;
-  }
-
-  Cart.findAll({
-    where: {
-      UserId: userId,
-      isPaid: false,
-    },
-    include: [{ model: Product }],
-  })
-    .then((cart) => {
-      //Si no hay carro creo uno
-      if (cart.length === 0) {
-        Cart.create({
-          UserId: userId,
-        }).then((newCart) => {
-          CartProductQuantity.create({
-            quantity: 1,
-            ProductId: productId,
-            CartId: newCart.id,
-          });
-          res.send(newCart);
-        });
-        //Si ya tiene carro agregá productos
-      } else {
-        CartProductQuantity.findAll({
-          where: {
-            CartId: cart[0].id,
-            ProductId: productId,
-          },
-        }).then((cartQuant) => {
-          if (cartQuant.length === 0) {
-            CartProductQuantity.create({
-              quantity: cant,
-              ProductId: productId,
-              CartId: cart[0].id,
-            }).then(() => res.sendStatus(200));
-          } else {
-            cartQuant[0]
-              .increment("quantity", { by: cant })
-              .then(() => res.sendStatus(200));
-          }
-        });
-      }
-    })
-    .catch((error) => console.error(error));
 });
 
 router.get("/cart", requireAuth, (req, res) => {
@@ -398,25 +396,44 @@ router.put("/cart/cant", requireAuth, async (req, res) => {
 });
 
 //Eliminar del carro
-router.put("/cart/destroy", requireAuth, (req, res) => {
-  Cart.findAll({
-    where: {
-      UserId: req.user.id,
-      isPaid: false,
-    },
-    include: [{ model: Product }],
-  })
-    .then((cart) => {
-      CartProductQuantity.findAll({
-        where: {
-          CartId: cart[0].id,
-          ProductId: req.body.product.id,
-        },
-      }).then((cartQuant) => {
-        cartQuant[0].destroy();
-      });
-    })
-    .then(() => res.sendStatus(200));
+router.put("/cart/destroy", requireAuth, async (req, res) => {
+  try {
+    if (!req.body.product || !req.body.product.id) {
+      return res.sendStatus(400);
+    }
+
+    const cart = await Cart.findOne({
+      where: {
+        UserId: req.user.id,
+        isPaid: false,
+      },
+    });
+
+    if (!cart) {
+      return res.sendStatus(404);
+    }
+
+    const cartQuant = await CartProductQuantity.findOne({
+      where: {
+        CartId: cart.id,
+        ProductId: req.body.product.id,
+      },
+    });
+
+    if (!cartQuant) {
+      return res.sendStatus(404);
+    }
+
+    await cartQuant.destroy();
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(
+      "Error al eliminar producto del carrito:",
+      error
+    );
+    res.sendStatus(500);
+  }
 });
 
 
