@@ -6,6 +6,7 @@ import {fetchSingleProduct, fetchProductsWithCategory} from '../actions/singlePr
 import { userCart, allCart, addToVirtualCart } from "../actions/cart";
 import FooterContainer from './FooterContainer';
 import Jumbotron from '../components/Jumbotron';
+import Snackbar from '@material-ui/core/Snackbar';
 
 class ProductsContainer extends React.Component{
 
@@ -13,6 +14,7 @@ class ProductsContainer extends React.Component{
         super(props);
         this.state = {
           search: '',
+          cartMessageOpen: false,
         }
         
         this.handleCart = this.handleCart.bind(this);
@@ -23,10 +25,13 @@ class ProductsContainer extends React.Component{
     }
 
     handleCart(product) {
-        this.props.userCart(product, this.props.user).then(() => {
-          this.props.allCart(this.props.user.id);
+      this.props.userCart(product, this.props.user).then(() => {
+        this.props.allCart(this.props.user.id);
+
+        this.setState({
+          cartMessageOpen: true,
         });
-      
+      });
     }
     
     render(){
@@ -34,7 +39,6 @@ class ProductsContainer extends React.Component{
          product.name.toLowerCase().includes(this.props.productName))
         return(
             <div>
-
               <Jumbotron/>
               {this.props.categoryName ? (
                 this.props.categoryArray.length > 0 ? (
@@ -55,6 +59,31 @@ class ProductsContainer extends React.Component{
                   user={this.props.user}
                 />
               )}
+              <Snackbar
+                open={this.state.cartMessageOpen}
+                autoHideDuration={2500}
+                onClose={() => {
+                  this.setState({
+                    cartMessageOpen: false,
+                  });
+                }}
+                ContentProps={{
+                  style: {
+                    justifyContent: "center",
+                  },
+                }}
+                message={
+                  <span
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      textAlign: "center",
+                    }}
+                  >
+                    Producto agregado al carrito
+                  </span>
+                }
+              />
             <FooterContainer/>
             </div>
         )

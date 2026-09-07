@@ -154,21 +154,43 @@ export default ({allcategories, handleName, handlePrice, handleImg, handleStock,
               />
               </Grid>
           </Grid>
-          { allcategories && allcategories.length > 0 ?
-                    allcategories.map((c)=>{
-                        return (
-                <Form.Group className="custom-control-inline" key={c.id}>
-                    <span >
-                        <Button fullWidth
-            variant="contained"
-            color="primary" 
-            onClick= {() =>{handleCategory(c)} }
-            >{c.name}</Button>
-                    </span>
-                </Form.Group>
-                        )
-                    }) : null
+          <Form.Group>
+            <Form.Control
+              as="select"
+              value={
+                state.category.length > 0
+                  ? state.category[0]
+                  : state.currentCategory || ""
+              }
+              onChange={(e) => {
+                if (!Array.isArray(allcategories)) {
+                  return;
                 }
+
+                const category = allcategories.find(
+                  (c) => c.id === Number(e.target.value)
+                );
+
+                if (category) {
+                  handleCategory(category);
+                }
+              }}
+            >
+              <option value="" disabled>
+                Seleccionar categoría
+              </option>
+
+              {Array.isArray(allcategories) &&
+                allcategories.map((category) => (
+                  <option
+                    key={category.id}
+                    value={category.id}
+                  >
+                    {category.name}
+                  </option>
+                ))}
+            </Form.Control>
+          </Form.Group>
           <Button
             type="submit"
             fullWidth

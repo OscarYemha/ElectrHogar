@@ -22,7 +22,6 @@ const receiveAllUsers = function(allusers){
     }
 }
 
-
 export const fetchAllUsers = () => (dispatch) =>
   axios
     .get(`${API_URL}/api/admin/users`)
@@ -42,18 +41,18 @@ export const fetchAdminCategories = () => (dispatch) =>
     .then((allcategories) => dispatch(receiveAdminCategories(allcategories)));
 
 
-    export const userRol = function (user, rol) {
-        return function () {
-          return axios.put(`${API_URL}/api/admin/users/rol`, {user, rol});
-        };
-        };
+export const userRol = function (user, rol) {
+    return function () {
+        return axios.put(`${API_URL}/api/admin/users/rol`, {user, rol});
+    };
+};
 
 
-        export const deleteUser = function (user) {
-            return function () {
-              return axios.put(`${API_URL}/api/admin/users/destroy`, {user});
-            };
-            };
+export const deleteUser = function (user) {
+    return function () {
+        return axios.put(`${API_URL}/api/admin/users/destroy`, {user});
+    };
+};
 
 
 export const createAdminProduct = function(product, category) {
@@ -80,6 +79,15 @@ export const deleteAdminProduct = function (product) {
 export const createAdminCategory = function(category){
     return function(){
         return axios.post(`${API_URL}/api/admin/newcategory`, {category});
+    };
+};
+
+export const editAdminCategory = function(category){
+    return function(){
+        return axios.put(
+            `${API_URL}/api/admin/categories/${category.id}`,
+            {category}
+        );
     };
 };
 

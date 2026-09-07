@@ -60,7 +60,7 @@ export default function({singleProduct, handleCart,user}) {
                    Volver
                 </Button>
               </Link>
-              {user.id? <Button
+              {user.id && !user.isAdmin ? <Button
                     variant="contained"
                     color="primary"
                     onClick={() => {
@@ -69,15 +69,6 @@ export default function({singleProduct, handleCart,user}) {
                   >
                     Agregar al carrito
                   </Button>:null}
-              {/* <Button
-                variant="contained"
-                color="primary"
-                onClick={()=>{
-                  handleCart(singleProduct)
-                }}
-              >
-                 Agregar al carrito
-              </Button> */}
             </Card.Body>
           </Card>
           <br />

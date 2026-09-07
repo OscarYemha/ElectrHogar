@@ -60,9 +60,9 @@ class AdminNewProductContainer extends React.Component{
     }
 
     handleCategory(e){
-        let cat = this.state.category
-        cat.push(e.id)
-        this.setState({category: cat})
+        this.setState({
+            category: [e.id]
+        });
     }
 
     handleSubmit(e){

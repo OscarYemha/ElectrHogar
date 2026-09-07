@@ -18,8 +18,11 @@ class NavbarContainer extends React.Component{
       this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleLogout(e){
+    handleLogout(){
       this.props.userLogout()
+        .then(() => {
+          this.props.history.push("/");
+        });
     }
 
     handleChange(e){

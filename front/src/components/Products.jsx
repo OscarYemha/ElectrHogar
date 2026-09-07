@@ -56,7 +56,7 @@ export default ({ productsArray, handleCart, user }) => (
                   <Card.Title>{p.name}</Card.Title>
                   <Card.Title>$ {p.price}</Card.Title>
                   <Card.Text>{p.description.slice(0, 80) + "..."}</Card.Text>
-                  {user.id? <Button
+                  {user.id && !user.isAdmin ? <Button
                     variant="contained"
                     color="primary"
                     onClick={() => {

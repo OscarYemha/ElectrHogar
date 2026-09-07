@@ -3,11 +3,14 @@ import SingleProduct from '../components/SingleProduct';
 import {connect} from 'react-redux';
 import {fetchSingleProduct} from '../actions/singleProduct';
 import {userCart, allCart, addToVirtualCart} from '../actions/cart'
+import Snackbar from '@material-ui/core/Snackbar';
 
 class SingleProductContainer extends React.Component{
     constructor(props){
         super(props);
-
+        this.state = {
+            cartMessageOpen: false,
+        };
         this.handleCart = this.handleCart.bind(this);
     }
 
@@ -16,11 +19,17 @@ class SingleProductContainer extends React.Component{
     }
 
     handleCart(product) {
-        this.props.userCart(this.props.singleProduct, this.props.user)
-        .then(() => {
-          this.props.allCart(this.props.user.id);
+        this.props.userCart(
+            this.props.singleProduct,
+            this.props.user
+        ).then(() => {
+            this.props.allCart(this.props.user.id);
+
+            this.setState({
+                cartMessageOpen: true,
+            });
         });
-      }
+    }
 
     render(){
         return(
@@ -29,6 +38,31 @@ class SingleProductContainer extends React.Component{
                 user = {this.props.user}
                 singleProduct={this.props.singleProduct}
                 handleCart={this.handleCart}
+                />
+                <Snackbar
+                    open={this.state.cartMessageOpen}
+                    autoHideDuration={2500}
+                    onClose={() => {
+                        this.setState({
+                        cartMessageOpen: false,
+                        });
+                    }}
+                    ContentProps={{
+                        style: {
+                        justifyContent: "center",
+                        },
+                    }}
+                    message={
+                        <span
+                        style={{
+                            display: "block",
+                            width: "100%",
+                            textAlign: "center",
+                        }}
+                        >
+                        Producto agregado al carrito
+                        </span>
+                    }
                 />
             </div>
         )

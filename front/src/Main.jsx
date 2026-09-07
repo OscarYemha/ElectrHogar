@@ -20,6 +20,7 @@ import SearchContainer from "./container/SearchContainer";
 import SingleCategoryContainer from "./container/SingleCategoryContainer";
 import CheckOutContainer from "./container/CheckOutContainer";
 import Confirmacion from "./components/ConfirmacionCompra";
+import AdminEditCategoryContainer from "./container/AdminEditCategoryContainer";
 
 class Main extends React.Component {
   componentDidMount() {
@@ -50,6 +51,8 @@ class Main extends React.Component {
           <Route exact path="/admin/newcategory" component={AdminNewCategoryContainer} />
           <Route exact path="/admin/categories" component={AdminCategoriesContainer} />
           <Route exact path="/admin/users" component={AdminUsersContainer} />
+          <Route exact path="/admin/category/:id" component={AdminEditCategoryContainer}
+/>
 
           <Route exact path="/categories" component={CategoriesContainer} />
           <Route exact path="/categories/:id" component={SingleCategoryContainer} />

@@ -79,10 +79,24 @@ router.get('/products', (req,res) => {
   })
 });
 
-router.get('/singleproduct/:id', (req,res) => {
-  Product.findByPk(req.params.id).then((singleproduct) => {
-    res.send(singleproduct);
-  })
+router.get("/singleproduct/:id", async (req, res) => {
+  try {
+    const product = await Product.findByPk(req.params.id, {
+      include: [{ model: Category }],
+    });
+
+    if (!product) {
+      return res.sendStatus(404);
+    }
+
+    res.json(product);
+  } catch (error) {
+    console.error(
+      "Error al obtener producto:",
+      error
+    );
+    res.sendStatus(500);
+  }
 });
 
 
@@ -308,6 +322,35 @@ router.put("/admin/category/destroy", requireAdmin, async (req, res) => {
   } catch (error) {
     console.error(
       "Error al eliminar categoría:",
+      error
+    );
+    res.sendStatus(500);
+  }
+});
+
+router.put("/admin/categories/:id", requireAdmin, async (req, res) => {
+  try {
+    const { name, imgUrl } = req.body.category || {};
+
+    if (!name) {
+      return res.sendStatus(400);
+    }
+
+    const category = await Category.findByPk(req.params.id);
+
+    if (!category) {
+      return res.sendStatus(404);
+    }
+
+    await category.update({
+      name,
+      imgUrl,
+    });
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(
+      "Error al editar categoría:",
       error
     );
     res.sendStatus(500);

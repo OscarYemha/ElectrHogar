@@ -15,7 +15,8 @@ class AdminEditProductContainer extends React.Component{
             stock: "",
             description: "",
             category: [],
-            id: ""
+            id: "",
+            currentCategory: "",
         }
 
         this.handleName = this.handleName.bind(this);
@@ -34,9 +35,13 @@ class AdminEditProductContainer extends React.Component{
             price: this.props.singleProduct.price,
             imgUrl: this.props.singleProduct.imgUrl,
             stock: this.props.singleProduct.stock,
-            description: this.props.singleProduct.description
-
-        }))
+            description: this.props.singleProduct.description,
+            currentCategory:
+                this.props.singleProduct.Categories &&
+                this.props.singleProduct.Categories.length > 0
+                    ? this.props.singleProduct.Categories[0].id
+                    : "",
+                    }))
     }
 
     handleName(e){
@@ -60,9 +65,9 @@ class AdminEditProductContainer extends React.Component{
     }
 
     handleCategory(e){
-        let cat = this.state.category
-        cat.push(e.id)
-        this.setState({category: cat})
+        this.setState({
+            category: [e.id]
+        });
     }
 
     handleSubmit(e){
