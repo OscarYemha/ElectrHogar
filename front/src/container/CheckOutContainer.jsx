@@ -24,11 +24,7 @@ class CheckOutContainer extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         this.props.checkOutInfo(
-            this.state.address,
-            this.state.card,
-            this.state.cvv,
-            this.props.user,
-            this.props.total
+        this.state.address
         ).then(() => {
             this.props.history.push('/confirmacion');
         }); 

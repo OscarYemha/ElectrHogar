@@ -103,6 +103,14 @@ router.get("/me", (req, res) => {
   res.json(sanitizeUser(req.user));
 });
 
+function requireAuth(req, res, next) {
+  if (!req.user) {
+    return res.sendStatus(401);
+  }
+
+  next();
+}
+
 function requireAdmin(req, res, next) {
   if (!req.user || !req.user.isAdmin) {
     return res.sendStatus(403);
@@ -259,9 +267,13 @@ router.put("/admin/users/rol", requireAdmin, (req, res) => {
 });
 
 // -------- Cart Routes -------- //
-router.post("/cart", (req, res) => {
+router.post("/cart", requireAuth, (req, res) => {
+  if (!req.body.product || !req.body.product.id) {
+  return res.sendStatus(400);
+  }
+
   const productId = req.body.product.id;
-  const userId = req.body.user.id;
+  const userId = req.user.id;
 
   let cant = 1;
   if (req.body.product.CartProductQuantity) {
@@ -270,7 +282,7 @@ router.post("/cart", (req, res) => {
 
   Cart.findAll({
     where: {
-      UserId: req.body.user.id,
+      UserId: userId,
       isPaid: false,
     },
     include: [{ model: Product }],
@@ -313,42 +325,27 @@ router.post("/cart", (req, res) => {
     .catch((error) => console.error(error));
 });
 
-router.put("/cart", (req, res) => {
+router.get("/cart", requireAuth, (req, res) => {
   Cart.findAll({
     where: {
-      UserId: req.body.user.id,
+      UserId: req.user.id,
       isPaid: false,
     },
     include: [{ model: Product }],
   }).then((cart) => {
-    CartProductQuantity.findAll({
-      where: {
-        CartId: cart[0].id,
-        ProductId: req.body.product.id,
-      },
-    }).then((cartQuant) => {
-      cartQuant[0].increment("quantity");
-    });
-  });
-});
+    if (cart.length === 0) {
+      return res.json({ Products: [] });
+    }
 
-router.get("/cart/:userId", (req, res) => {
-  Cart.findAll({
-    where: {
-      UserId: req.params.userId,
-      isPaid: false
-    },
-    include: [{ model: Product }],
-  }).then((cart) => {
     res.send(cart[0]);
   });
 });
 
 //Modificar cantidad (mandar user object, product object y {cant: 1} (ó -1 dependiendo el caso))
-router.put("/cart/cant", (req, res) => {
+router.put("/cart/cant", requireAuth, (req, res) => {
   Cart.findAll({
     where: {
-      UserId: req.body.user.id,
+      UserId: req.user.id,
       isPaid: false,
     },
     include: [{ model: Product }],
@@ -371,10 +368,10 @@ router.put("/cart/cant", (req, res) => {
 });
 
 //Eliminar del carro
-router.put("/cart/destroy", (req, res) => {
+router.put("/cart/destroy", requireAuth, (req, res) => {
   Cart.findAll({
     where: {
-      UserId: req.body.user.id,
+      UserId: req.user.id,
       isPaid: false,
     },
     include: [{ model: Product }],
@@ -396,77 +393,117 @@ router.put("/cart/destroy", (req, res) => {
 
 
 // -------- CheckOut Route -------- //
-router.put("/checkout", (req, res) => {
+router.put("/checkout", requireAuth, async (req, res) => {
+  try {
+    const cart = await Cart.findOne({
+      where: {
+        UserId: req.user.id,
+        isPaid: false,
+      },
+      include: [{ model: Product }],
+    });
 
-  var transporter = nodemailer.createTransport({
-    service: "gmail",  
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-    tls: { rejectUnauthorized: false },
-  });
-
-  var mailOptions = {
-    from: "Remitente",
-    to: req.body.user.email,
-    subject: "Confirmación de compra",
-    text: `Muchas gracias por tu compra!`,
-  };
-  Cart.update(
-    {
-      address: req.body.address,
-      date: Date.now(),
-      isPaid: true,
-      total: req.body.total,
-    },
-    {
-      where: { UserId: req.body.user.id, isPaid: false },
-      returning: true,
-      plain: true,
+    if (!cart || !cart.Products || cart.Products.length === 0) {
+      return res.status(400).json({
+        error: "El carrito está vacío",
+      });
     }
-  )
-    .then(() => {
-      if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
-        console.log("Email no configurado. Se omite el envío.");
-        return res.status(200).json({ message: "Compra realizada con éxito" });
+
+    const total = cart.Products.reduce((sum, product) => {
+      const quantity = product.CartProductQuantity.quantity;
+      return sum + product.price * quantity;
+    }, 0);
+
+    await cart.update({
+      address: req.body.address,
+      date: new Date(),
+      isPaid: true,
+      total,
+    });
+
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+      console.log("Email no configurado. Se omite el envío.");
+
+      return res.status(200).json({
+        message: "Compra realizada con éxito",
+        total,
+      });
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: req.user.email,
+      subject: "Confirmación de compra",
+      text: "Muchas gracias por tu compra!",
+    };
+
+    transporter.sendMail(mailOptions, (error) => {
+      if (error) {
+        console.log(
+          "No se pudo enviar el email:",
+          error.message
+        );
+      } else {
+        console.log("Email enviado");
       }
 
-      transporter.sendMail(mailOptions, (error) => {
-        if (error) {
-          console.log("No se pudo enviar el email:", error.message);
-        } else {
-          console.log("Email enviado");
-        }
-
-        res.status(200).json({ message: "Compra realizada con éxito" });
+      res.status(200).json({
+        message: "Compra realizada con éxito",
+        total,
       });
     });
-})
-
-router.get("/orders/:userid", (req, res) => {
-  Cart.findAll({
-    where: {
-      UserId: req.params.userid,
-      isPaid: true,
-    },
-  }).then((r) => {
-    res.send(r);
-  });
+  } catch (error) {
+    console.error("Error durante el checkout:", error);
+    res.sendStatus(500);
+  }
 });
 
-router.get("/compras/:cartId", (req, res) => {
-  Cart.findAll({
-    where: {
-      id: req.params.cartId,
-      isPaid: true,
-    },
-    include: [{ model: Product }],
-  }).then((cart) => {
-    res.send(cart[0]);
-  });
+router.get("/orders", requireAuth, async (req, res) => {
+  try {
+    const orders = await Cart.findAll({
+      where: {
+        UserId: req.user.id,
+        isPaid: true,
+      },
+    });
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Error al obtener compras:", error);
+    res.sendStatus(500);
+  }
+});
+
+router.get("/compras/:cartId", requireAuth, async (req, res) => {
+  try {
+    const cart = await Cart.findOne({
+      where: {
+        id: req.params.cartId,
+        UserId: req.user.id,
+        isPaid: true,
+      },
+      include: [{ model: Product }],
+    });
+
+    if (!cart) {
+      return res.sendStatus(404);
+    }
+
+    res.json(cart);
+  } catch (error) {
+    console.error("Error al obtener compra:", error);
+    res.sendStatus(500);
+  }
 });
 
 module.exports = router

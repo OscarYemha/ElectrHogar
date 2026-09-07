@@ -43,17 +43,17 @@ export const userCart = function(product, user){
     };
 };
 
-export const allCart = (userId) => {
+export const allCart = () => {
     return (dispatch) => {
-        return axios.get(`${API_URL}/api/cart/${userId}`).then((res) => {
-            dispatch(addCart(res.data.Products))
-        })
-    }
+        return axios.get(`${API_URL}/api/cart`).then((res) => {
+            dispatch(addCart(res.data.Products));
+        });
+    };
 };
 
 export const deleteProduct = function (product, user) {
     return function () {
-      return axios.put(`${API_URL}/api/cart/destroy`, { product, user });
+      return axios.put(`${API_URL}/api/cart/destroy`, { product });
     };
 };
 
@@ -66,33 +66,33 @@ export const addToVirtualCart = (product) => {
     };
   };
 
-  export const quantityProduct = function (product, user, cant) {
-    return function () {
-      return axios.put(`${API_URL}/api/cart/cant`, { product, user, cant });
-    };
+export const quantityProduct = function (product, user, cant) {
+  return function () {
+    return axios.put(`${API_URL}/api/cart/cant`, { product, cant });
   };
+};
 
-  export const clearCartInStore = () => (dispatch) => {
-    return dispatch(addCart([]));
+export const clearCartInStore = () => (dispatch) => {
+  return dispatch(addCart([]));
+};
+
+export const allOrders = () => {
+  return (dispatch) => {
+    return axios.get(`${API_URL}/api/orders`).then((res) => {
+      dispatch(addOrder(res.data));
+    });
   };
+};
 
-  export const allOrders = (userId) => {
-    return (dispatch) => {
-      return axios.get(`${API_URL}/api/orders/${userId}`).then((res) => {
-        dispatch(addOrder(res.data));
-      });
-    };
+
+export const fetchTotal = (tot) => {
+  return function (dispatch) {
+    return dispatch(totalCart(tot));
   };
+};
 
-
-  export const fetchTotal = (tot) => {
-    return function (dispatch) {
-      return dispatch(totalCart(tot));
-    };
+export const checkOutInfo = function (isPaid) {
+  return function () {
+    return axios.put("/api/checkout", {isPaid });
   };
-
-  export const checkOutInfo = function (isPaid) {
-    return function () {
-      return axios.put("/api/checkout", {isPaid });
-    };
-  };
+};
