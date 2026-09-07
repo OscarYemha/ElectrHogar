@@ -342,29 +342,59 @@ router.get("/cart", requireAuth, (req, res) => {
 });
 
 //Modificar cantidad (mandar user object, product object y {cant: 1} (ó -1 dependiendo el caso))
-router.put("/cart/cant", requireAuth, (req, res) => {
-  Cart.findAll({
-    where: {
-      UserId: req.user.id,
-      isPaid: false,
-    },
-    include: [{ model: Product }],
-  })
-    .then((cart) => {
-      CartProductQuantity.findAll({
-        where: {
-          CartId: cart[0].id,
-          ProductId: req.body.product.id,
-        },
-      }).then((cartQuant) => {
-        if (cartQuant[0].quantity + req.body.cant.cant < 1) {
-          (cartQuant[0].increment = 0), cartQuant[0].save;
-        } else {
-          cartQuant[0].increment("quantity", { by: req.body.cant.cant });
-        }
+router.put("/cart/cant", requireAuth, async (req, res) => {
+  try {
+    if (
+      !req.body.product ||
+      !req.body.product.id ||
+      !req.body.cant ||
+      typeof req.body.cant.cant !== "number"
+    ) {
+      return res.sendStatus(400);
+    }
+
+    const cart = await Cart.findOne({
+      where: {
+        UserId: req.user.id,
+        isPaid: false,
+      },
+    });
+
+    if (!cart) {
+      return res.sendStatus(404);
+    }
+
+    const cartQuant = await CartProductQuantity.findOne({
+      where: {
+        CartId: cart.id,
+        ProductId: req.body.product.id,
+      },
+    });
+
+    if (!cartQuant) {
+      return res.sendStatus(404);
+    }
+
+    const nuevaCantidad =
+      cartQuant.quantity + req.body.cant.cant;
+
+    if (nuevaCantidad < 1) {
+      return res.status(400).json({
+        error: "La cantidad mínima es 1",
       });
-    })
-    .then(() => res.sendStatus(200));
+    }
+
+    cartQuant.quantity = nuevaCantidad;
+    await cartQuant.save();
+
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(
+      "Error al modificar cantidad del carrito:",
+      error
+    );
+    res.sendStatus(500);
+  }
 });
 
 //Eliminar del carro
