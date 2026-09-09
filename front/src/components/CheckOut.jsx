@@ -20,8 +20,10 @@ export default ({
   handleCard,
   handleCvv,
   user,
-  total,
   isSubmitting,
+  showConfirmation,
+  handleConfirmPurchase,
+  handleCancelConfirmation,
   error,
 }) => {
   return (
@@ -42,7 +44,7 @@ export default ({
               <Form.Label>Domicilio:</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Address"
+                placeholder="Ingresá el domicilio"
                 onChange={handleAddress}
                 autoFocus
                 required
@@ -87,6 +89,30 @@ export default ({
               </Button>
             </Form.Group>
           </Form>
+          <Modal
+            show={showConfirmation}
+            onHide={handleCancelConfirmation}
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Confirmar compra</Modal.Title>
+            </Modal.Header>
+            <Modal.Footer>
+              <Button
+                variant="secondary"
+                onClick={handleCancelConfirmation}
+              >
+                Cancelar
+              </Button>
+
+              <Button
+                variant="primary"
+                onClick={handleConfirmPurchase}
+              >
+                Sí, confirmar compra
+              </Button>
+            </Modal.Footer>
+          </Modal>
           <Modal
             show={isSubmitting}
             backdrop="static"

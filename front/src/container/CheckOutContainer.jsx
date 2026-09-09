@@ -13,13 +13,16 @@ class CheckOutContainer extends React.Component {
             cvv: "",
             total: 0,
             isSubmitting: false,
-            error: ""
+            showConfirmation: false,
+            error: "",
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleAddress = this.handleAddress.bind(this)
         this.handleCard = this.handleCard.bind(this)
         this.handleCvv = this.handleCvv.bind(this)
+        this.handleConfirmPurchase = this.handleConfirmPurchase.bind(this)
+        this.handleCancelConfirmation = this.handleCancelConfirmation.bind(this)
     }
 
     handleSubmit(e) {
@@ -55,6 +58,29 @@ class CheckOutContainer extends React.Component {
         }
 
         this.setState({
+            showConfirmation: true,
+            error: ""
+        });
+    }
+
+    handleAddress(e) {
+        this.setState({address: e.target.value})
+
+    }
+
+    handleCard(e) {
+        this.setState({card: e.target.value})
+    }
+
+    handleCvv(e) {
+        this.setState({cvv: e.target.value})
+    }
+
+    handleConfirmPurchase() {
+        const address = this.state.address.trim();
+
+        this.setState({
+            showConfirmation: false,
             isSubmitting: true,
             error: ""
         });
@@ -76,17 +102,10 @@ class CheckOutContainer extends React.Component {
             });
     }
 
-    handleAddress(e) {
-        this.setState({address: e.target.value})
-
-    }
-
-    handleCard(e) {
-        this.setState({card: e.target.value})
-    }
-
-    handleCvv(e) {
-        this.setState({cvv: e.target.value})
+    handleCancelConfirmation() {
+        this.setState({
+            showConfirmation: false
+        });
     }
 
     render() {
@@ -98,8 +117,10 @@ class CheckOutContainer extends React.Component {
                 handleCard = {this.handleCard}
                 handleCvv = {this.handleCvv}
                 user={this.props.user}
-                total={this.props.total}
                 isSubmitting={this.state.isSubmitting}
+                showConfirmation={this.state.showConfirmation}
+                handleConfirmPurchase={this.handleConfirmPurchase}
+                handleCancelConfirmation={this.handleCancelConfirmation}
                 error={this.state.error}
                 />
             </div>
