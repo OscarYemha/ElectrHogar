@@ -87,7 +87,9 @@ class CheckOutContainer extends React.Component {
 
         this.props.checkOutInfo(address)
             .then(() => {
-                this.props.history.push('/confirmacion');
+                this.props.history.push('/confirmacion', {
+                    purchaseCompleted: true
+                });
             })
             .catch((error) => {
                 this.setState({

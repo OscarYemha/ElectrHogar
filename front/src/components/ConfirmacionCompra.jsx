@@ -1,10 +1,17 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 function Confirmacion() {
   const history = useHistory();
+  const location = useLocation();
+  const purchaseCompleted = location.state?.purchaseCompleted;
 
   useEffect(() => {
+    if (!purchaseCompleted) {
+      history.replace("/");
+      return;
+    }
+
     const timer = setTimeout(() => {
       history.push("/");
     }, 5000);
@@ -12,7 +19,7 @@ function Confirmacion() {
     return () => {
       clearTimeout(timer);
     };
-  }, [history]);
+  }, [history, purchaseCompleted]);
 
   return (
     <div style={{ textAlign: "center", marginTop: "5%" }}>
