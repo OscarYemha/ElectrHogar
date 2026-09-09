@@ -1,8 +1,10 @@
 # ElectrHogar
 
-Aplicación web full-stack de e-commerce de electrodomésticos, desarrollada de manera individual como proyecto integrador del Coding Bootcamp de Plataforma5.
+Aplicación web full-stack de e-commerce de electrodomésticos desarrollada con React, Redux, Node.js, Express y PostgreSQL.
 
-La aplicación permite explorar productos, filtrarlos por categoría, realizar búsquedas, registrarse e iniciar sesión, gestionar un carrito de compras y acceder a funcionalidades administrativas.
+Permite explorar y buscar productos, filtrarlos por categoría, gestionar un carrito de compras, realizar un proceso de checkout simulado con comprobante por email y administrar productos, categorías y usuarios mediante un panel protegido por roles.
+
+El proyecto fue desarrollado de manera individual como proyecto integrador del Coding Bootcamp de Plataforma5 y posteriormente ampliado y refactorizado.
 
 ## Funcionalidades
 
@@ -13,15 +15,25 @@ La aplicación permite explorar productos, filtrarlos por categoría, realizar b
 - Visualización del catálogo de productos.
 - Búsqueda de productos.
 - Filtrado por categoría.
+- Visualización del detalle de cada producto.
 - Gestión del carrito de compras.
+- Modificación de cantidades y eliminación de productos del carrito.
+- Checkout simulado con validación de los datos ingresados.
+- Confirmación de la compra antes de finalizar la operación.
+- Envío de comprobante de compra por email con productos, cantidades, precios y total.
+- Validación del carrito antes de acceder al checkout.
+
+> El proceso de compra es una simulación con fines demostrativos. No se procesan pagos reales ni se almacenan datos de tarjetas.
 
 ### Administrador
 
-- Creación y edición de productos.
-- Creación y eliminación de categorías.
+- Creación, edición y eliminación de productos.
+- Creación, edición y eliminación de categorías.
 - Visualización de usuarios registrados.
 - Promoción de usuarios a administrador.
 - Eliminación de usuarios no administradores.
+- Restricción para impedir que un administrador elimine a otro administrador.
+- Confirmación antes de realizar operaciones destructivas.
 - Protección de endpoints administrativos mediante autorización en el backend.
 
 ## Tecnologías
@@ -45,17 +57,34 @@ La aplicación permite explorar productos, filtrarlos por categoría, realizar b
 - Passport
 - bcrypt
 - express-session
+- Nodemailer
 - Helmet
 - CORS
 
-## Estructura del proyecto
+## Arquitectura
+
+El proyecto está dividido en una aplicación frontend y una API backend.
 
 ```text
 ElectrHogar/
 ├── front/      # Aplicación React
-├── back/       # API, autenticación y acceso a datos
+├── back/       # API REST, autenticación y acceso a datos
 └── README.md
 ```
+
+El backend organiza las rutas por dominio para separar las distintas responsabilidades de la aplicación:
+
+```text
+back/api/Routes/
+├── index.js
+├── products.js
+├── auth.js
+├── admin.js
+├── cart.js
+└── checkout.js
+```
+
+La autenticación utiliza sesiones y las operaciones protegidas obtienen la identidad del usuario desde la sesión del servidor, evitando depender de identificadores de usuario enviados por el cliente.
 
 ## Requisitos
 
@@ -101,7 +130,7 @@ Crear previamente en PostgreSQL la base de datos indicada en `DATABASE_URL`.
 
 ### Datos de demostración
 
-El proyecto incluye un seed para generar una base de demostración:
+El proyecto incluye un seed para generar una base de datos de demostración:
 
 ```bash
 npm run seed
@@ -159,12 +188,32 @@ El proyecto implementa distintas medidas de seguridad y control de acceso:
 - Hash de contraseñas mediante bcrypt.
 - Autenticación mediante Passport.
 - Sesiones de usuario con express-session.
-- Middleware de autorización para proteger las rutas administrativas.
+- Middleware de autenticación para las operaciones privadas.
+- Middleware de autorización para las rutas administrativas.
+- Identificación del propietario del carrito mediante la sesión del servidor.
 - Restricción para impedir la eliminación de usuarios administradores.
-- Variables sensibles mediante variables de entorno.
+- Validación y selección explícita de los campos aceptados por endpoints sensibles.
+- Respuestas de usuario limitadas a información no sensible.
+- Validación de datos en operaciones de carrito y checkout.
+- Variables sensibles gestionadas mediante variables de entorno.
 - Configuración de CORS para restringir el origen permitido.
 - Cabeceras de seguridad mediante Helmet.
+- Los datos ficticios de tarjeta utilizados durante el checkout no se envían al backend ni se almacenan.
+
+## Estado del proyecto
+
+El flujo principal de la aplicación se encuentra funcional e incluye:
+
+- Registro y autenticación.
+- Catálogo, búsqueda y categorías.
+- Carrito de compras.
+- Checkout simulado.
+- Comprobante por email.
+- Panel de administración.
+- Gestión de productos, categorías y usuarios.
+
+El proyecto está orientado a demostración y portfolio, por lo que el checkout no utiliza una pasarela de pagos real.
 
 ## Autor
 
-**Oscar Yemha**
+**Oscar Ismael Yemha**
