@@ -14,7 +14,7 @@ const formbox = {
   borderRadius: "10px",
 };
 
-export default ({
+const CheckOut = ({
   handleSubmit,
   handleAddress,
   handleCard,
@@ -145,3 +145,5 @@ export default ({
     </div>
   );
 };
+
+export default CheckOut;

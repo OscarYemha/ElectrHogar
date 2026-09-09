@@ -5,7 +5,7 @@ const initialState = {
   singleProduct: {},
 };
 
-export default (state = initialState, action) => {
+const singleProductReducer = (state = initialState, action) => {
 
   switch (action.type) {
     case RECEIVE_PRODUCTS:
@@ -16,3 +16,5 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+export default singleProductReducer;

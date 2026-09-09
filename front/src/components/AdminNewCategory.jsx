@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -45,12 +45,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({handleSubmit, handleName, handleImg, user}) => {
+const AdminNewCategory = ({
+  handleSubmit,
+  handleName,
+  handleImg,
+  user
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
   const handleToggle = () => {
     setOpen(!open);
   };
@@ -115,3 +117,5 @@ export default ({handleSubmit, handleName, handleImg, user}) => {
     </div>
   );
 }
+
+export default AdminNewCategory;

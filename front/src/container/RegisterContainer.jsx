@@ -80,4 +80,4 @@ const mapDispatchToProps = (dispatch) => {
     };
   };
   
-  export default connect(null, mapDispatchToProps)(RegisterContainer);
+export default connect(null, mapDispatchToProps)(RegisterContainer);

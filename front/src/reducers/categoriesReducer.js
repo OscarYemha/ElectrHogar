@@ -4,7 +4,7 @@ const initialState = {
     categories: [],
 }
 
-export default (state = initialState, action) => {
+const categoriesReducer = (state = initialState, action) => {
     switch(action.type){
         case RECEIVE_CATEGORIES:
             return Object.assign({},state, {categories: action.categories});
@@ -12,3 +12,5 @@ export default (state = initialState, action) => {
             return state;
     }
 }
+
+export default categoriesReducer;

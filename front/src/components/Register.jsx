@@ -47,7 +47,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({handleSubmit, handleFirstname, handleLastname, handleEmail, handlePassword}) => {
+const Register = ({
+  handleSubmit,
+  handleFirstname,
+  handleLastname,
+  handleEmail,
+  handlePassword
+}) => {
   const classes = useStyles();
 
   return (
@@ -148,3 +154,5 @@ export default ({handleSubmit, handleFirstname, handleLastname, handleEmail, han
     </Container>
   );
 }
+
+export default Register;

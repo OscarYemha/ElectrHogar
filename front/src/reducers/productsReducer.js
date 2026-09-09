@@ -5,7 +5,7 @@ const initialState = {
     productName: '',
 }
 
-export default (state = initialState, action) => {
+const productsReducer = (state = initialState, action) => {
     switch(action.type){
         case RECEIVE_PRODUCTS:
             return Object.assign({}, state, {products: action.products});
@@ -15,3 +15,5 @@ export default (state = initialState, action) => {
             return state;
     }
 };
+
+export default productsReducer;

@@ -2,7 +2,7 @@ const initialState = {
     user: {}
 }
 
-export default (state = initialState, action) => {
+const userReducer = (state = initialState, action) => {
     switch(action.type){
         case 'USER_LOGIN':
             return Object.assign({}, state, {user: action.user})
@@ -10,3 +10,5 @@ export default (state = initialState, action) => {
             return state;
     }
 }
+
+export default userReducer;

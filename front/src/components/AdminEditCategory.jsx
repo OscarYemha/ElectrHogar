@@ -45,17 +45,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({handleSubmit,
+const AdminEditCategory = ({
+  handleSubmit,
   handleName,
   handleImg,
   name,
   imgUrl,
-  user}) => {
+  user
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
   const handleToggle = () => {
     setOpen(!open);
   };
@@ -122,3 +121,5 @@ export default ({handleSubmit,
     </div>
   );
 }
+
+export default AdminEditCategory;

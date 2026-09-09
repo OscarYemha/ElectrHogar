@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({user, allcategories, handleDelete}) => {
+const AdminCategories = ({ user, allcategories, handleDelete }) => {
 
   const classes = useStyles();
 
@@ -62,7 +62,13 @@ export default ({user, allcategories, handleDelete}) => {
                   <tr>
                     <td># {e.id}</td>
                     <td>{e.name}</td>
-                    <td><img src={e.imgUrl} style={{width: "70px", height: '50px'}}></img></td>
+                    <td>
+                      <img
+                        src={e.imgUrl}
+                        alt={e.name}
+                        style={{ width: "70px", height: "50px" }}
+                      />
+                    </td>
                     <td>
                       <Link
                         to={`/admin/category/${e.id}`}
@@ -138,3 +144,5 @@ export default ({user, allcategories, handleDelete}) => {
   </div>)
 
 }
+
+export default AdminCategories;

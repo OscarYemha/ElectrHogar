@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({handleSubmit, handleEmail, handlePassword, error}) => {
+const Login = ({ handleSubmit, handleEmail, handlePassword, error }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   React.useEffect(() => {
@@ -151,3 +151,5 @@ export default ({handleSubmit, handleEmail, handlePassword, error}) => {
     </Container>
   );
 }
+
+export default Login;

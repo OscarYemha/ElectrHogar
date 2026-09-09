@@ -9,9 +9,15 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
       {'Copyright © '}
-      <a color="inherit" href="#" style={{textDecoration:'none', color:'rgba(0, 0, 0, 0.54)'}}>
-      ElectrHogar
-      </a>{' '}
+      <Link
+        to="/"
+        style={{
+          textDecoration: 'none',
+          color: 'rgba(0, 0, 0, 0.54)'
+        }}
+      >
+        ElectrHogar
+      </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
     </Typography>

@@ -22,13 +22,6 @@ const addOrder = function (orders) {
   };
 };
 
-const misCompras = function (compras) {
-  return {
-    type: "MIS_COMPRAS",
-    compras,
-  };
-};
-
 const totalCart = function(total){
     return {
         type: "TOTAL_CART",

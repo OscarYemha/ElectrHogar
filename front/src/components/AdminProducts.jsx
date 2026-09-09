@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default ({allproducts, handleDelete, user}) => {
+const AdminProducts = ({ allproducts, handleDelete, user }) => {
 
   const classes = useStyles();
 
@@ -65,7 +65,13 @@ export default ({allproducts, handleDelete, user}) => {
                     <td>{e.name}</td>
                     <td> {e.price}</td>
                     <td> {e.stock} </td>
-                    <td> <img src={e.imgUrl} style={{width: "70px", height: '50px'}}></img></td>
+                    <td>
+                      <img
+                        src={e.imgUrl}
+                        alt={e.name}
+                        style={{ width: "70px", height: "50px" }}
+                      />
+                    </td>
                     <td><Link to={`/admin/product/${e.id}`} style={{textDecoration:'none'}}><Button
                           variant="contained"
                           color="primary"
@@ -127,3 +133,5 @@ export default ({allproducts, handleDelete, user}) => {
   )
    
 }
+
+export default AdminProducts;

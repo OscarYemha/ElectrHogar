@@ -1,5 +1,3 @@
-import {ADD_CART} from '../constants';
-
 const initialState = {
     cart : [],
     totalCart: [],
@@ -8,7 +6,7 @@ const initialState = {
     compras: [],
 }
 
-export default (state = initialState, action) => {
+const cartReducer = (state = initialState, action) => {
     switch(action.type){
         case "ADD_CART":
             return Object.assign({}, state, {cart: action.cart});
@@ -24,3 +22,5 @@ export default (state = initialState, action) => {
             return state;
     }
 };
+
+export default cartReducer;

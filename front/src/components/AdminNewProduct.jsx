@@ -54,20 +54,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default ({allcategories, handleName, handlePrice, handleImg, handleStock, handleDescription, handleSubmit, handleCategory, user}) => {
+const AdminNewProduct = ({
+  allcategories,
+  handleName,
+  handlePrice,
+  handleImg,
+  handleStock,
+  handleDescription,
+  handleSubmit,
+  handleCategory,
+  user
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
   const handleToggle = () => {
     setOpen(!open);
   };
-
-  
-  // const handleChange = (event) => {
-  //   setCurrency(event.target.value);
-  // };
 
   return (
     <div>
@@ -205,3 +207,5 @@ export default ({allcategories, handleName, handlePrice, handleImg, handleStock,
     </div>
   );
 }
+
+export default AdminNewProduct;

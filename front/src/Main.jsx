@@ -4,7 +4,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { isLog } from "./actions/users";
 import LoginContainer from "./container/LoginContainer";
 import RegisterContainer from "./container/RegisterContainer";
-import FooterContainer from "./container/FooterContainer";
 import NavbarContainer from "./container/NavbarContainer";
 import ProductsContainer from "./container/ProductsContainer";
 import SingleProductContainer from "./container/SingleProductContainer";

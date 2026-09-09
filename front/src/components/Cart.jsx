@@ -30,15 +30,14 @@ function Cart(props) {
         </thead>
         {cartRender && cartRender.length > 0
           ? cartRender.map((cart) => {
-              {
                 total = total + cart.price * cart.CartProductQuantity.quantity;
-              }
               return (
                 <tbody key={cart.name}>
                   <tr>
                     <td>
                       <img
                         src={cart.imgUrl}
+                        alt={cart.name}
                         style={{ width: "70px", height: "50px" }}
                       ></img>{" "}
                     </td>

@@ -4,7 +4,7 @@ const initialState = {
     allusers:{}
 }
 
-export default (state = initialState, action) => {
+const adminReducer = (state = initialState, action) => {
     switch(action.type){
         case 'RECEIVE_ADMIN_PRODUCTS':
             return Object.assign({}, state, {allproducts: action.allproducts});
@@ -16,3 +16,5 @@ export default (state = initialState, action) => {
             return state;
     }
 }
+
+export default adminReducer;

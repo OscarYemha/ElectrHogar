@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 
-export default ({ productsArray, handleCart, user }) => (
+const Products = ({ productsArray, handleCart, user }) => (
   
   <Container fluid>
     
@@ -34,7 +34,7 @@ export default ({ productsArray, handleCart, user }) => (
                   <Card.Title>$ {p.price}</Card.Title>
                   <Card.Title>Último disponible</Card.Title>
                   <Card.Text>{p.description.slice(0, 80) + "..."}</Card.Text>
-                  {user.id?<Button
+                  {user.id && !user.isAdmin ? <Button
                     variant="contained"
                     color="primary"
                     onClick={() => {
@@ -78,3 +78,5 @@ export default ({ productsArray, handleCart, user }) => (
     </Row>
   </Container>
 );
+
+export default Products;

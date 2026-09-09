@@ -7,15 +7,8 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
-const style = {
-    textDecoration: "none",
-    marginTop: "10px",
-    position: "relative",
-    color: "black",
-    marginRight: "10px",
-  };
 
-export default function({singleProduct, handleCart,user}) {
+function SingleProduct({ singleProduct, handleCart, user }) {
     return(
 
             <Container>
@@ -78,3 +71,5 @@ export default function({singleProduct, handleCart,user}) {
 
     )
 }
+
+export default SingleProduct;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Form, FormControl, Button, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Form, FormControl, NavDropdown } from "react-bootstrap";
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Link} from 'react-router-dom';
@@ -24,7 +24,7 @@ const navStyle2 = {
 }
 
 
-export default (props) => {
+const NavbarComponent = (props) => {
   return (
     <div>
 <Navbar bg="dark" variant='dark' expand="lg" >
@@ -84,3 +84,5 @@ export default (props) => {
 </div>
   )
 }
+
+export default NavbarComponent;

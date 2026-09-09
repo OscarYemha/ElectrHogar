@@ -6,13 +6,10 @@ import FooterContainer from './FooterContainer';
 import Jumbotron from '../components/Jumbotron';
 
 class CategoriesContainer extends React.Component {
-    constructor(props){
-        super(props);
-    }
 
     componentDidMount(){
         return this.props.fetchCategories();
-        
+
     }
 
     render(){
