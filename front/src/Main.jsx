@@ -15,7 +15,6 @@ import AdminCategoriesContainer from "./container/AdminCategoriesContainer";
 import AdminUsersContainer from "./container/AdminUsersContainer";
 import CategoriesContainer from "./container/CategoriesContainer";
 import CartContainer from "./container/CartContainer";
-import SearchContainer from "./container/SearchContainer";
 import SingleCategoryContainer from "./container/SingleCategoryContainer";
 import CheckOutContainer from "./container/CheckOutContainer";
 import Confirmacion from "./components/ConfirmacionCompra";
@@ -50,13 +49,11 @@ class Main extends React.Component {
           <Route exact path="/admin/newcategory" component={AdminNewCategoryContainer} />
           <Route exact path="/admin/categories" component={AdminCategoriesContainer} />
           <Route exact path="/admin/users" component={AdminUsersContainer} />
-          <Route exact path="/admin/category/:id" component={AdminEditCategoryContainer}
-/>
+          <Route exact path="/admin/category/:id" component={AdminEditCategoryContainer}/>
 
           <Route exact path="/categories" component={CategoriesContainer} />
           <Route exact path="/categories/:id" component={SingleCategoryContainer} />
           <Route path="/cart" component={CartContainer} />
-          <Route path="/search" component={SearchContainer} />
           <Route path="/checkout" component={CheckOutContainer} />
           <Route exact path="/confirmacion" component={Confirmacion} />
         </Switch>

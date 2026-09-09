@@ -52,10 +52,18 @@ class ProductsContainer extends React.Component{
                     No hay productos en esta categoría.
                   </p>
                 )
+              ) : this.props.productName && filteredProducts.length === 0 ? (
+                <p style={{ textAlign: "center", marginTop: "30px" }}>
+                  No se encontraron productos.
+                </p>
               ) : (
                 <Products
                   handleCart={this.handleCart}
-                  productsArray={filteredProducts.length > 0 ? filteredProducts : this.props.products}
+                  productsArray={
+                    this.props.productName
+                      ? filteredProducts
+                      : this.props.products
+                  }
                   user={this.props.user}
                 />
               )}
