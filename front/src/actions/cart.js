@@ -8,13 +8,6 @@ const addCart = function(cart) {
     };
 };
 
-const addOrder = function (orders) {
-  return {
-    type: "ADD_ORDERS",
-    orders,
-  };
-};
-
 const totalCart = function(total){
     return {
         type: "TOTAL_CART",
@@ -54,14 +47,6 @@ export const quantityProduct = function (product, cant) {
 
 export const clearCartInStore = () => (dispatch) => {
   return dispatch(addCart([]));
-};
-
-export const allOrders = () => {
-  return (dispatch) => {
-    return axios.get(`${API_URL}/api/orders`).then((res) => {
-      dispatch(addOrder(res.data));
-    });
-  };
 };
 
 export const fetchTotal = (tot) => {
