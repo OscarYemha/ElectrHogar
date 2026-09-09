@@ -3,7 +3,7 @@ import Products from '../components/Products';
 import {connect} from 'react-redux';
 import {fetchProducts} from '../actions/products'
 import {fetchSingleProduct, fetchProductsWithCategory} from '../actions/singleProduct';
-import { userCart, allCart, addToVirtualCart } from "../actions/cart";
+import { userCart, allCart } from "../actions/cart";
 import FooterContainer from './FooterContainer';
 import Jumbotron from '../components/Jumbotron';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -25,9 +25,8 @@ class ProductsContainer extends React.Component{
     }
 
     handleCart(product) {
-      this.props.userCart(product, this.props.user).then(() => {
-        this.props.allCart(this.props.user.id);
-
+      this.props.userCart(product).then(() => {
+        this.props.allCart();
         this.setState({
           cartMessageOpen: true,
         });
@@ -118,5 +117,5 @@ const mapStateToProps = (state, ownProps) => {
 
 
 export default connect(mapStateToProps, {
-    fetchProducts, fetchSingleProduct,fetchProductsWithCategory, userCart, allCart, addToVirtualCart
+    fetchProducts, fetchSingleProduct,fetchProductsWithCategory, userCart, allCart
 })(ProductsContainer);

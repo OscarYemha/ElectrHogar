@@ -2,7 +2,7 @@ import React from 'react';
 import SingleProduct from '../components/SingleProduct';
 import {connect} from 'react-redux';
 import {fetchSingleProduct} from '../actions/singleProduct';
-import {userCart, allCart, addToVirtualCart} from '../actions/cart'
+import {userCart, allCart} from '../actions/cart'
 import Snackbar from '@material-ui/core/Snackbar';
 
 class SingleProductContainer extends React.Component{
@@ -20,10 +20,9 @@ class SingleProductContainer extends React.Component{
 
     handleCart(product) {
         this.props.userCart(
-            this.props.singleProduct,
-            this.props.user
+            this.props.singleProduct
         ).then(() => {
-            this.props.allCart(this.props.user.id);
+            this.props.allCart();
 
             this.setState({
                 cartMessageOpen: true,
@@ -80,9 +79,8 @@ const mapStateToProps = (state) => {
   const mapDispatchToProps = (dispatch) =>{
       return{
           fetchSingleProduct: (id)=> dispatch(fetchSingleProduct(id)),
-          userCart : (singleProduct, user)=> dispatch(userCart(singleProduct, user)),
-          allCart: (user) => dispatch(allCart(user)),
-          addToVirtualCart: () => dispatch(addToVirtualCart())
+          userCart : (singleProduct)=> dispatch(userCart(singleProduct)),
+          allCart: () => dispatch(allCart())
       }
   }
   

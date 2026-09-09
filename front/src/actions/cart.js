@@ -8,13 +8,6 @@ const addCart = function(cart) {
     };
 };
 
-const addVirtualCart = function(virtualCart){
-    return {
-        type: "ADD_VIRTUAL_CART",
-        virtualCart,
-    };
-};
-
 const addOrder = function (orders) {
   return {
     type: "ADD_ORDERS",
@@ -29,10 +22,9 @@ const totalCart = function(total){
     };
 };
 
-
-export const userCart = function(product, user){
+export const userCart = function(product){
     return function(){
-        return axios.post(`${API_URL}/api/cart`, {product, user});
+      return axios.post(`${API_URL}/api/cart`, { product });
     };
 };
 
@@ -44,22 +36,13 @@ export const allCart = () => {
     };
 };
 
-export const deleteProduct = function (product, user) {
+export const deleteProduct = function (product) {
     return function () {
       return axios.put(`${API_URL}/api/cart/destroy`, { product });
     };
 };
 
-export const addToVirtualCart = (product) => {
-    if (!product) {
-      product = {};
-    }
-    return (dispatch) => {
-      return dispatch(addVirtualCart(product));
-    };
-  };
-
-export const quantityProduct = function (product, user, cant) {
+export const quantityProduct = function (product, cant) {
   return function () {
     return axios.put(`${API_URL}/api/cart/cant`, { product, cant });
   };
@@ -77,15 +60,8 @@ export const allOrders = () => {
   };
 };
 
-
 export const fetchTotal = (tot) => {
   return function (dispatch) {
     return dispatch(totalCart(tot));
-  };
-};
-
-export const checkOutInfo = function (isPaid) {
-  return function () {
-    return axios.put("/api/checkout", {isPaid });
   };
 };

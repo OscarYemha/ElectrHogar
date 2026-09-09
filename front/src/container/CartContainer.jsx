@@ -1,7 +1,7 @@
 import React from 'react';
 import Cart from '../components/Cart';
 import {connect} from 'react-redux';
-import {fetchTotal, addToVirtualCart, allCart, deleteProduct, quantityProduct} from '../actions/cart';
+import {fetchTotal, allCart, deleteProduct, quantityProduct} from '../actions/cart';
 import FooterContainer from './FooterContainer'
 
 class CartContainer extends React.Component {
@@ -14,42 +14,38 @@ class CartContainer extends React.Component {
     }
 
     componentDidMount(){
-        if (!this.props.user.id) {
-            let virtualCartVariable = JSON.parse(localStorage.getItem("cart"));
-            return this.props.addToVirtualCart(virtualCartVariable);
-          } else {
-            return this.props.allCart(this.props.user.id);
-          }
+        if (this.props.user.id) {
+            this.props.allCart();
+        }
+    }
+
+    componentDidUpdate(prevProps){
+        if (!prevProps.user.id && this.props.user.id) {
+            this.props.allCart();
+        }
     }
 
     handleDelete(product){
-      
-            //Si hay usuario
-            this.props.deleteProduct(product, this.props.user).then(() => {
-              this.props.allCart(this.props.user.id);
-            });
-          
+        this.props.deleteProduct(product).then(() => {
+        this.props.allCart();
+        });
     }
 
     handleQuantityProduct(product, cant) {
-        
-          //Si hay Usuario
-          this.props.quantityProduct(product, this.props.user, cant).then(() => {
-            this.props.allCart(this.props.user.id);
-          });      
-        
-      }
+        this.props.quantityProduct(product, cant).then(() => {
+        this.props.allCart();
+        });
+    }
 
-      handleTotal(total){
-        return this.props.fetchTotal(total)
-      }
+    handleTotal(total){
+    return this.props.fetchTotal(total)
+    }
 
 
     render(){
         return(
             <div>
                 <Cart
-                   virtualCart = {this.props.virtualCart}
                    handleQuantityProduct = {this.handleQuantityProduct}
                    handleDelete = {this.handleDelete}
                    user = {this.props.user}
@@ -68,16 +64,14 @@ const mapStateToProps = (state) => {
         return {
             cart: [],
             user: state.user.user,
-            virtualCart: state.cart.virtualCart,
         }
     }else {
         return {
             cart: state.cart.cart.sort((a, b) => (a.id > b.id ? 1 : -1)),
             user: state.user.user,
-            virtualCart: state.cart.virtualCart,
         }
     }
 }
 
 
-export default connect(mapStateToProps, {deleteProduct, allCart, fetchTotal, addToVirtualCart, quantityProduct})(CartContainer)
+export default connect(mapStateToProps, {deleteProduct, allCart, fetchTotal, quantityProduct})(CartContainer)

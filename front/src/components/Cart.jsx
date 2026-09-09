@@ -6,17 +6,11 @@ import Error from './Error'
 
 function Cart(props) {
   let total = 0;
-  let cartRender = [];
-
-  if (props.cart.length > 0) {
-    cartRender = props.cart;
-  } else if (props.virtualCart.length > 0) {
-    cartRender = props.virtualCart;
-  }
+  const cartRender = props.cart;
 
   return (
     <div>
-      {props.user? <div className="container" style={{ marginTop: "50px", width: "60%" }}>
+      {props.user.id ? <div className="container" style={{ marginTop: "50px", width: "60%" }}>
       
       <Table striped bordered hover>
         <thead>
