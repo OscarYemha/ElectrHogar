@@ -31,7 +31,11 @@ export const userCart = function(product){
 export const allCart = () => {
     return (dispatch) => {
         return axios.get(`${API_URL}/api/cart`).then((res) => {
-            dispatch(addCart(res.data.Products));
+            const products = res.data.Products;
+
+            dispatch(addCart(products));
+
+            return products;
         });
     };
 };

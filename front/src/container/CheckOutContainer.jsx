@@ -2,6 +2,7 @@ import React from 'react'
 import CheckOut from '../components/CheckOut'
 import { connect } from 'react-redux'
 import {checkOutInfo} from '../actions/checkOut'
+import {allCart} from '../actions/cart'
 
 
 class CheckOutContainer extends React.Component {
@@ -23,6 +24,30 @@ class CheckOutContainer extends React.Component {
         this.handleCvv = this.handleCvv.bind(this)
         this.handleConfirmPurchase = this.handleConfirmPurchase.bind(this)
         this.handleCancelConfirmation = this.handleCancelConfirmation.bind(this)
+    }
+
+    componentDidMount() {
+        if (this.props.user.id) {
+            this.validateCart();
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (!prevProps.user.id && this.props.user.id) {
+            this.validateCart();
+        }
+    }
+
+    validateCart() {
+        this.props.allCart()
+            .then((products) => {
+                if (products.length === 0) {
+                    this.props.history.replace('/cart');
+                }
+            })
+            .catch(() => {
+                this.props.history.replace('/cart');
+            });
     }
 
     handleSubmit(e) {
@@ -133,8 +158,12 @@ class CheckOutContainer extends React.Component {
 const mapStateToProps = (state) => {
     return {
       user: state.user.user,
+      cart: state.cart.cart,
       total: state.cart.totalCart
     };
-  };
+};
 
-export default connect(mapStateToProps, {checkOutInfo})(CheckOutContainer)
+export default connect(mapStateToProps, {
+    checkOutInfo,
+    allCart
+})(CheckOutContainer)
